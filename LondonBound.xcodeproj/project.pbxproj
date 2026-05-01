@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F31A761D2FA3AA5E00828F93 /*  .xcconfig in Sources */ = {isa = PBXBuildFile; fileRef = F31A761C2FA3AA5900828F93 /*  .xcconfig */; };
+		F3D489DD2FA4B6BA005A852D /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F3D489DC2FA4B6BA005A852D /* Config.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		F31A761C2FA3AA5900828F93 /*  .xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = " .xcconfig"; sourceTree = "<group>"; };
+		F3D489DC2FA4B6BA005A852D /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F3D668B32FA241CA00D5FA9E /* LondonBound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LondonBound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D668C22FA241CC00D5FA9E /* LondonBoundTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LondonBoundTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D668CC2FA241CC00D5FA9E /* LondonBoundUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LondonBoundUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,6 +99,7 @@
 				F3D668C52FA241CC00D5FA9E /* LondonBoundTests */,
 				F3D668CF2FA241CC00D5FA9E /* LondonBoundUITests */,
 				F3D668B42FA241CA00D5FA9E /* Products */,
+				F3D489DC2FA4B6BA005A852D /* Config.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -231,6 +233,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F3D489DD2FA4B6BA005A852D /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,7 +258,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F31A761D2FA3AA5E00828F93 /*  .xcconfig in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +293,7 @@
 /* Begin XCBuildConfiguration section */
 		F3D668D42FA241CC00D5FA9E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3D489DC2FA4B6BA005A852D /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -355,6 +358,7 @@
 		};
 		F3D668D52FA241CC00D5FA9E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F3D489DC2FA4B6BA005A852D /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;

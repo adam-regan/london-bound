@@ -14,10 +14,10 @@ extension Color {
 struct ColorTheme {
     // MARK: - App Colors
 
-    let accent = Color("Accent")
+    let accent = Color("AppAccent")
     let background = Color("Background")
-    let primary = Color("Primary")
-    let secondary = Color("Secondary")
+    let primary = Color("AppPrimary")
+    let secondary = Color("AppSecondary")
     let surface = Color("Surface")
     let textPrimary = Color("TextPrimary")
     let textSecondary = Color("TextSecondary")
