@@ -8,12 +8,18 @@
 import Foundation
 
 final class TFLAPIService: TFLAPIServiceProtocol {
+    private let session: URLSession
+
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
+
     func request<T: Sendable & Decodable>(_ endpoint: TFLEndpoint, as type: T.Type) async throws -> T {
         guard let url = buildURL(endpoint) else {
             throw URLError(.badURL)
         }
 
-        let (data, response) = try await URLSession.shared.data(from: url)
+        let (data, response) = try await session.data(from: url)
         guard let httpResponse = response as? HTTPURLResponse else {
             throw TFLError.networkError
         }
