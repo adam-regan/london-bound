@@ -9,7 +9,7 @@ final class TFLAPIServiceStub: TFLAPIServiceProtocol {
     var result: Any?
     var error: Error?
 
-    func request<T: Decodable>(_ endpoint: TFLEndpoint, as type: T.Type) async throws -> T {
+    func request<T: Sendable & Decodable>(_ endpoint: TFLEndpoint, as type: T.Type) async throws -> T {
         if let error { throw error }
         return result as! T
     }

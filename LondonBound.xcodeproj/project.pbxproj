@@ -28,7 +28,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		F31A761C2FA3AA5900828F93 /*  .xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = " .xcconfig"; sourceTree = "<group>"; };
 		F3D489DC2FA4B6BA005A852D /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F3D668B32FA241CA00D5FA9E /* LondonBound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LondonBound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D668C22FA241CC00D5FA9E /* LondonBoundTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LondonBoundTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,7 +93,6 @@
 		F3D668AA2FA241CA00D5FA9E = {
 			isa = PBXGroup;
 			children = (
-				F31A761C2FA3AA5900828F93 /*  .xcconfig */,
 				F3D668B52FA241CA00D5FA9E /* LondonBound */,
 				F3D668C52FA241CC00D5FA9E /* LondonBoundTests */,
 				F3D668CF2FA241CC00D5FA9E /* LondonBoundUITests */,

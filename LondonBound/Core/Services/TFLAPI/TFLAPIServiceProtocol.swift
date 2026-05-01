@@ -6,5 +6,5 @@
 //
 
 protocol TFLAPIServiceProtocol {
-    func request<T: Decodable>(_ endpoint: TFLEndpoint, as type: T.Type) async throws -> T
+    func request<T: Sendable & Decodable>(_ endpoint: TFLEndpoint, as type: T.Type) async throws -> T
 }
