@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F31A761D2FA3AA5E00828F93 /*  .xcconfig in Sources */ = {isa = PBXBuildFile; fileRef = F31A761C2FA3AA5900828F93 /*  .xcconfig */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		F3D668C32FA241CC00D5FA9E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,14 +28,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F31A761C2FA3AA5900828F93 /*  .xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = " .xcconfig"; sourceTree = "<group>"; };
 		F3D668B32FA241CA00D5FA9E /* LondonBound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LondonBound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D668C22FA241CC00D5FA9E /* LondonBoundTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LondonBoundTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D668CC2FA241CC00D5FA9E /* LondonBoundUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LondonBoundUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F31A761F2FA3ABA800828F93 /* Exceptions for "LondonBound" folder in "LondonBound" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F3D668B22FA241CA00D5FA9E /* LondonBound */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		F3D668B52FA241CA00D5FA9E /* LondonBound */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F31A761F2FA3ABA800828F93 /* Exceptions for "LondonBound" folder in "LondonBound" target */,
+			);
 			path = LondonBound;
 			sourceTree = "<group>";
 		};
@@ -75,6 +93,7 @@
 		F3D668AA2FA241CA00D5FA9E = {
 			isa = PBXGroup;
 			children = (
+				F31A761C2FA3AA5900828F93 /*  .xcconfig */,
 				F3D668B52FA241CA00D5FA9E /* LondonBound */,
 				F3D668C52FA241CC00D5FA9E /* LondonBoundTests */,
 				F3D668CF2FA241CC00D5FA9E /* LondonBoundUITests */,
@@ -236,6 +255,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F31A761D2FA3AA5E00828F93 /*  .xcconfig in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -400,6 +420,7 @@
 				DEVELOPMENT_TEAM = 92SCYX8TJP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LondonBound/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -432,6 +453,7 @@
 				DEVELOPMENT_TEAM = 92SCYX8TJP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LondonBound/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

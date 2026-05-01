@@ -17,4 +17,6 @@ playground.xcworkspace
 .build/
 .swiftpm/
 
+Config.xcconfig
+
 
