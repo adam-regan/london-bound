@@ -8,37 +8,27 @@
 import SwiftUI
 
 struct RootView: View {
-    private var service = TFLAPIService()
-    @State var response: [Line] = []
+    @State private var selectedTab: Tab = .status
 
     var body: some View {
         VStack {
-            if response.isEmpty {
-                Text("No Data")
-            } else {
-                ForEach(response) { line in
-                    VStack(alignment: .leading) {
-                        Text(line.name)
-                            .font(.headline)
-                            .padding(.horizontal, Spacing.md)
-                        if !line.lineStatuses.isEmpty {
-                            ForEach(line.lineStatuses) { status in
-                                Text(status.statusSeverityDescription)
-                                    .padding(.horizontal, Spacing.xl)
-                            }
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+            Group {
+                switch selectedTab {
+                    case .status:
+                    StatusView()
+                    case .arrivals:
+                        Text("arrivals")
+                    case .nearby:
+                        Text("nearby")
+                    case .saved:
+                        Text("saved")
                 }
             }
+            .foregroundStyle(Color.theme.textPrimary)
+
+            CustomTabBarView(selectedTab: $selectedTab)
         }
-        .task {
-            do {
-                response = try await service.request(.lineStatusByMode(modes: ["tube"]), as: [Line].self)
-            } catch {
-                print(error)
-            }
-        }
+        .background(Color.theme.background)
     }
 }
 
