@@ -12,17 +12,19 @@ struct RootView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            switch selectedTab {
-                case .status:
-                    StatusView()
-                case .arrivals:
-                    Text("arrivals")
-                case .nearby:
-                    Text("nearby")
-                case .saved:
-                    Text("saved")
+            VStack {
+                switch selectedTab {
+                    case .status:
+                        StatusView()
+                    case .arrivals:
+                        Text("arrivals")
+                    case .nearby:
+                        Text("nearby")
+                    case .saved:
+                        Text("saved")
+                }
             }
-
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
             CustomTabBarView(selectedTab: $selectedTab)
         }
         .background(Color.theme.background)

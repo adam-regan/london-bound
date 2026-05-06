@@ -20,18 +20,7 @@ struct StatusGroupView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         VStack(spacing: 0) {
             ForEach(lines.indices, id: \.self) { index in
-                let line = lines[index]
-                HStack {
-                    Circle()
-                        .foregroundColor(line.color)
-                        .frame(width: 12)
-                    Text(line.name)
-                        .foregroundColor(Color.theme.textPrimary)
-                    Spacer()
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .frame(height: 40)
-                .padding(.horizontal, Spacing.md)
+                StatusRowView(line: lines[index])
                 if index < lines.count - 1 {
                     Divider()
                         .background(
@@ -47,7 +36,7 @@ struct StatusGroupView: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: CornerRadius.md)
-                .strokeBorder(Color.theme.textSecondary, lineWidth: 1)
+                .strokeBorder(Color.theme.textSecondary, lineWidth: 1).opacity(0.75)
         )
     }
 }

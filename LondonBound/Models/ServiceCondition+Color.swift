@@ -5,6 +5,8 @@
 //  Created by Adam Regan on 06/05/2026.
 //
 
+import SwiftUI
+
 extension ServiceCondition {
     var color: ServiceConditionColor {
         switch self {
@@ -21,7 +23,10 @@ extension ServiceCondition {
                 foreground: .theme.good, background: .theme.good
             )
         case .unknown:
-            ServiceConditionColor(foreground: .theme.textPrimary, background: .theme.surface)
+            ServiceConditionColor(
+                foreground: Color.clear,
+                background: Color.clear
+            )
         }
     }
 }
