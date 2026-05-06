@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct StatusView: View {
-    @StateObject private var viewModel = StatusViewModel(
-        tflAPIService: TFLAPIService()
-    )
+    @ObservedObject var viewModel: StatusViewModel
 
     var body: some View {
         VStack {
@@ -45,7 +43,7 @@ struct StatusView: View {
                             )
                         }
                     }
-                    Color.clear.frame(height: Spacing.sm)
+                    Color.clear.frame(height: Spacing.xs)
                 }
                 .scrollIndicators(.hidden)
             }
@@ -59,11 +57,16 @@ struct StatusView: View {
         )
         .background(Color.theme.background)
         .task {
-            viewModel.fetchStatuses()
+            viewModel.startPolling()
+        }
+        .onDisappear {
+            viewModel.stopPolling()
         }
     }
 }
 
 #Preview {
-    StatusView()
+    StatusView(viewModel: StatusViewModel(
+        tflAPIService: TFLAPIService()
+    ))
 }

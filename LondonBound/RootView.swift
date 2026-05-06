@@ -9,13 +9,15 @@ import SwiftUI
 
 struct RootView: View {
     @State private var selectedTab: Tab = .status
-
+    @StateObject private var statusViewModel = StatusViewModel(
+        tflAPIService: TFLAPIService()
+    )
     var body: some View {
         VStack(spacing: 0) {
             VStack {
                 switch selectedTab {
                     case .status:
-                        StatusView()
+                    StatusView(viewModel: statusViewModel)
                     case .arrivals:
                         Text("arrivals")
                     case .nearby:
