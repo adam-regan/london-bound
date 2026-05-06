@@ -13,14 +13,34 @@ class StatusViewModel: ObservableObject {
     @Published var statuses: Loadable<GroupedStatuses> = .loading
     @Published var timeUpdated: String?
 
+    private var pollingTask: Task<Void, Never>?
+
     private let apiService: TFLAPIServiceProtocol
 
     init(tflAPIService: TFLAPIServiceProtocol) {
         apiService = tflAPIService
     }
 
-    func fetchStatuses() {
-        statuses = .loading
+    func startPolling() {
+        pollingTask?.cancel()
+
+        pollingTask = Task {
+            while !Task.isCancelled {
+                fetchStatuses()
+                do {
+                    try await Task.sleep(nanoseconds: 60_000_000_000)
+                } catch {
+                    break
+                }
+            }
+        }
+    }
+
+    func stopPolling() {
+        pollingTask?.cancel()
+    }
+
+    private func fetchStatuses() {
         Task {
             do {
                 let response = try await apiService.request(.lineStatusByMode(modes: [.tube, .dlr, .elizabeth, .overground]), as: [Line].self)
@@ -38,7 +58,6 @@ class StatusViewModel: ObservableObject {
                                 .contains { $0.statusSeverity.condition != .good }
                         })
                 )
-                print(grouped)
                 statuses =
                     .loaded(grouped)
 
@@ -56,9 +75,9 @@ class StatusViewModel: ObservableObject {
     func sortLines(_ lines: [Line]) -> [Line] {
         let modeOrder: [String] = [
             TransportMode.tube.apiKey,
-            TransportMode.elizabeth.apiKey,
             TransportMode.overground.apiKey,
-            TransportMode.dlr.apiKey
+            TransportMode.dlr.apiKey,
+            TransportMode.elizabeth.apiKey
         ]
         return lines.sorted {
             let lhsIndex = modeOrder.firstIndex(of: $0.modeName) ?? .max
