@@ -25,8 +25,11 @@ struct ColorTheme {
     // MARK: - Line Status
 
     let good = Color("Good")
+    let goodBackground = Color("GoodBackground")
     let minor = Color("Minor")
+    let minorBackground = Color("MinorBackground")
     let severe = Color("Severe")
+    let severeBackground = Color("SevereBackground")
 
     // MARK: - Line Colors
 

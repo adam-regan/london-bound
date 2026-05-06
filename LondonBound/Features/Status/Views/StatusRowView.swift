@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StatusRowView: View {
+    @EnvironmentObject var viewModel: StatusViewModel
+
     let line: Line
     var body: some View {
         HStack {
@@ -23,7 +25,7 @@ struct StatusRowView: View {
                 )
             Text(line.name)
             Spacer()
-            StatusBadge(line: line)
+            getStatusMarker(for: line)
             Image(systemName: "chevron.right")
                 .resizable()
                 .scaledToFit()
@@ -33,12 +35,33 @@ struct StatusRowView: View {
         }
         .foregroundColor(Color.theme.textPrimary)
         .frame(maxWidth: .infinity)
-        .frame(height: 40)
+        .frame(height: 44)
         .padding(.horizontal, Spacing.sm)
         .background(Color.theme.surface)
     }
+
+    @ViewBuilder
+    func getStatusMarker(for line: Line) -> some View {
+        if line.overallCondition == .good {
+            StatusDotView(line: line)
+        } else {
+            if let worstStatus = viewModel.getWorstLineStatus(line: line) {
+                StatusBadgeView(status: worstStatus)
+            }
+        }
+    }
 }
 
-#Preview {
-    StatusRowView(line: LondonBound.Line(id: "bakerloo", name: "Bakerloo", modeName: "tube", lineStatuses: [LondonBound.LineStatus(id: 0, statusSeverity: LondonBound.SeverityLevel(value: 10), statusSeverityDescription: "Good Service", reason: nil)]))
+#Preview("Good") {
+    StatusRowView(line: GroupedStatuses.fixture.goodService[0])
+        .environmentObject(StatusViewModel(
+            tflAPIService: TFLAPIService()
+        ))
+}
+
+#Preview("Minor") {
+    StatusRowView(line: GroupedStatuses.fixture.disruptions[0])
+        .environmentObject(StatusViewModel(
+            tflAPIService: TFLAPIService()
+        ))
 }

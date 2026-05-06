@@ -12,15 +12,15 @@ extension ServiceCondition {
         switch self {
         case .severe:
             ServiceConditionColor(
-                foreground: .theme.severe, background: .theme.severe.opacity(0.2)
+                foreground: .theme.severe, background: .theme.severeBackground
             )
         case .minor:
             ServiceConditionColor(
-                foreground: .theme.minor, background: .theme.minor.opacity(0.2)
+                foreground: .theme.minor, background: .theme.minorBackground
             )
         case .good:
             ServiceConditionColor(
-                foreground: .theme.good, background: .theme.good.opacity(0.2)
+                foreground: .theme.good, background: .theme.goodBackground
             )
         case .unknown:
             ServiceConditionColor(

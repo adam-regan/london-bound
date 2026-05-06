@@ -5,7 +5,7 @@
 //  Created by Adam Regan on 05/05/2026.
 //
 
-struct SeverityLevel: Decodable, Sendable {
+struct SeverityLevel: Decodable, Sendable, Hashable {
     let value: Int
     
     init(from decoder: Decoder) throws {

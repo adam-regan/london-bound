@@ -5,7 +5,7 @@
 //  Created by Adam Regan on 01/05/2026.
 //
 
-struct Line: nonisolated Decodable, Sendable, Identifiable {
+struct Line: nonisolated Decodable, Sendable, Identifiable, Hashable {
     let id: String
     let name: String
     let modeName: String
