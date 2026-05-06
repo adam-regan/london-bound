@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct StatusGroupView: View {
+    @EnvironmentObject var coordinator: MainCoordinator
+
     var groupName: String
     var lines: [Line]
     var body: some View {
@@ -48,9 +50,11 @@ struct StatusGroupView: View {
             StatusRowView(line: line)
 
         } else {
-            NavigationLink(value: line) { StatusRowView(line: line) }
-                .clipped()
-                .buttonStyle(.plain)
+            Button {
+                coordinator.push(.line(line))
+            } label: {
+                StatusRowView(line: line)
+            }
         }
     }
 }
@@ -64,7 +68,7 @@ struct StatusGroupView: View {
             )
             .environmentObject(StatusViewModel(
                 tflAPIService: TFLAPIService()
-            ))
+            )).environmentObject(MainCoordinator())
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.theme.background)

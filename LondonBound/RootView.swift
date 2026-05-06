@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RootView: View {
     @State private var selectedTab: Tab = .status
+    @StateObject private var statusCoordinator = MainCoordinator()
     @StateObject private var statusViewModel = StatusViewModel(
         tflAPIService: TFLAPIService()
     )
@@ -19,6 +20,7 @@ struct RootView: View {
                     case .status:
                         StatusView()
                             .environmentObject(statusViewModel)
+                            .environmentObject(statusCoordinator)
                     case .arrivals:
                         Text("arrivals")
                     case .nearby:

@@ -9,9 +9,10 @@ import SwiftUI
 
 struct StatusView: View {
     @EnvironmentObject var viewModel: StatusViewModel
+    @EnvironmentObject var coordinator: MainCoordinator
 
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $coordinator.path) {
             VStack {
                 HStack {
                     Text("Line Status")
@@ -63,8 +64,8 @@ struct StatusView: View {
             .onDisappear {
                 viewModel.stopPolling()
             }
-            .navigationDestination(for: Line.self) { line in
-                DisruptionDetailView(line: line)
+            .navigationDestination(for: Page.self) { page in
+                coordinator.build(page: page)
             }
         }
     }

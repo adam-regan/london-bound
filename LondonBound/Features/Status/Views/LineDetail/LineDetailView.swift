@@ -1,5 +1,5 @@
 //
-//  DisruptionDetailView.swift
+//  LineDetailView.swift
 //  LondonBound
 //
 //  Created by Adam Regan on 06/05/2026.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct DisruptionDetailView: View {
+struct LineDetailView: View {
     @Environment(\.dismiss) private var dismiss
     var line: Line
     var body: some View {
@@ -43,7 +43,7 @@ struct DisruptionDetailView: View {
 
 #Preview {
     NavigationStack {
-        DisruptionDetailView(line: GroupedStatuses.fixture.disruptions[0]).environmentObject(StatusViewModel(
+        LineDetailView(line: GroupedStatuses.fixture.disruptions[0]).environmentObject(StatusViewModel(
             tflAPIService: TFLAPIService()
         ))
     }
