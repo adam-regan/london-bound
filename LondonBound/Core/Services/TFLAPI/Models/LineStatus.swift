@@ -7,7 +7,7 @@
 
 struct LineStatus: nonisolated Decodable, Sendable, Identifiable {
     let id: Int
-    let statusSeverity: Int
+    let statusSeverity: SeverityLevel
     let statusSeverityDescription: String
     let reason: String?
 }

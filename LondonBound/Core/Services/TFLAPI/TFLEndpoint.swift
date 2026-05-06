@@ -8,12 +8,12 @@
 import Foundation
 
 enum TFLEndpoint {
-    case lineStatusByMode(modes: [String])
+    case lineStatusByMode(modes: [TransportMode])
 
     var path: String {
         switch self {
         case .lineStatusByMode(let modes):
-            let modesString = modes.joined(separator: ",")
+            let modesString = modes.map { $0.apiKey }.joined(separator: ",")
             return "/Line/Mode/\(modesString)/Status"
         }
     }

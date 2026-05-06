@@ -11,28 +11,33 @@ struct CustomTabBarView: View {
     @Binding var selectedTab: Tab
 
     var body: some View {
-        VStack(spacing: Spacing.md) {
-            Divider()
-                .overlay(Color.theme.secondary)
-            HStack(alignment: .center) {
-                ForEach(Tab.allCases, id: \.self) { tab in
-                    CustomTabView(
-                        selectedTab: $selectedTab,
-                        tab: tab
-                    )
+        VStack {
+            VStack(spacing: Spacing.md) {
+                Divider()
+                    .overlay(Color.theme.secondary)
+                HStack(alignment: .center) {
+                    ForEach(Tab.allCases, id: \.self) { tab in
+                        CustomTabView(
+                            selectedTab: $selectedTab,
+                            tab: tab
+                        )
+                    }
                 }
             }
+            .frame(
+                maxWidth: .infinity
+            )
+            .background(Color.theme.background)
         }
-        .frame(
-            maxWidth: .infinity,
-            maxHeight: .infinity,
-            alignment: .bottom
-        )
+        .frame(maxWidth: .infinity, alignment: .bottom)
     }
 }
 
 #Preview {
     @Previewable @State var selectedTab: Tab = .status
-    CustomTabBarView(selectedTab: $selectedTab)
-        .background(Color.theme.background)
+    VStack {
+        CustomTabBarView(selectedTab: $selectedTab)
+    }
+    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+    .background(Color.theme.surface)
 }

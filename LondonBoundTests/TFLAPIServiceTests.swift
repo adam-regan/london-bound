@@ -11,7 +11,7 @@ import Testing
 
 @Suite(.serialized)
 struct TFLAPIServiceTests {
-    private let endpoint = TFLEndpoint.lineStatusByMode(modes: ["tube"])
+    private let endpoint = TFLEndpoint.lineStatusByMode(modes: [.tube])
 
     private func makeService() -> TFLAPIService {
         let config = URLSessionConfiguration.ephemeral

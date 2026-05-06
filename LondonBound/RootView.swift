@@ -11,20 +11,17 @@ struct RootView: View {
     @State private var selectedTab: Tab = .status
 
     var body: some View {
-        VStack {
-            Group {
-                switch selectedTab {
-                    case .status:
+        VStack(spacing: 0) {
+            switch selectedTab {
+                case .status:
                     StatusView()
-                    case .arrivals:
-                        Text("arrivals")
-                    case .nearby:
-                        Text("nearby")
-                    case .saved:
-                        Text("saved")
-                }
+                case .arrivals:
+                    Text("arrivals")
+                case .nearby:
+                    Text("nearby")
+                case .saved:
+                    Text("saved")
             }
-            .foregroundStyle(Color.theme.textPrimary)
 
             CustomTabBarView(selectedTab: $selectedTab)
         }

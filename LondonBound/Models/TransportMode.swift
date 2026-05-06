@@ -6,5 +6,14 @@
 //
 
 enum TransportMode: CaseIterable {
-    case all, tube, elizabeth, dlr, overground
+    case tube, elizabeth, dlr, overground
+
+    var apiKey: String {
+        switch self {
+        case .elizabeth:
+            "elizabeth-line"
+        default:
+            "\(self)"
+        }
+    }
 }
