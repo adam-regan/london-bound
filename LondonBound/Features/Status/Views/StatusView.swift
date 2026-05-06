@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct StatusView: View {
-    @ObservedObject var viewModel: StatusViewModel
+    @EnvironmentObject var viewModel: StatusViewModel
 
     var body: some View {
         VStack {
@@ -66,7 +66,7 @@ struct StatusView: View {
 }
 
 #Preview {
-    StatusView(viewModel: StatusViewModel(
+    StatusView().environmentObject(StatusViewModel(
         tflAPIService: TFLAPIService()
     ))
 }

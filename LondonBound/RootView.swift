@@ -17,7 +17,8 @@ struct RootView: View {
             VStack {
                 switch selectedTab {
                     case .status:
-                    StatusView(viewModel: statusViewModel)
+                        StatusView()
+                            .environmentObject(statusViewModel)
                     case .arrivals:
                         Text("arrivals")
                     case .nearby:

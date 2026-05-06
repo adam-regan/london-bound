@@ -23,10 +23,7 @@ struct StatusRowView: View {
                 )
             Text(line.name)
             Spacer()
-            Circle()
-                .foregroundColor(line.overallCondition.color.foreground)
-                .frame(width: 8)
-                .padding(.horizontal, Spacing.xxs)
+            StatusBadge(line: line)
             Image(systemName: "chevron.right")
                 .resizable()
                 .scaledToFit()
@@ -42,10 +39,6 @@ struct StatusRowView: View {
     }
 }
 
-#Preview("Good") {
+#Preview {
     StatusRowView(line: LondonBound.Line(id: "bakerloo", name: "Bakerloo", modeName: "tube", lineStatuses: [LondonBound.LineStatus(id: 0, statusSeverity: LondonBound.SeverityLevel(value: 10), statusSeverityDescription: "Good Service", reason: nil)]))
-}
-
-#Preview("Severe") {
-    StatusRowView(line: LondonBound.Line(id: "bakerloo", name: "Bakerloo", modeName: "tube", lineStatuses: [LondonBound.LineStatus(id: 0, statusSeverity: LondonBound.SeverityLevel(value: 8), statusSeverityDescription: "Severe Delays", reason: nil)]))
 }

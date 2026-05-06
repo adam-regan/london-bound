@@ -40,6 +40,13 @@ class StatusViewModel: ObservableObject {
         pollingTask?.cancel()
     }
 
+    func getWorstLineStatus(line: Line) -> LineStatus? {
+        return line.lineStatuses
+            .first {
+                $0.statusSeverity.condition == line.overallCondition
+            }
+    }
+
     private func fetchStatuses() {
         Task {
             do {
