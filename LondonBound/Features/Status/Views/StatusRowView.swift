@@ -12,7 +12,7 @@ struct StatusRowView: View {
 
     let line: Line
     var body: some View {
-        HStack {
+        ListRow {
             LineCircle(lineID: line.id)
             Text(line.name)
             Spacer()
@@ -24,11 +24,6 @@ struct StatusRowView: View {
                 .opacity(line.overallCondition == .good ? 0 : 1)
                 .padding(.horizontal, Spacing.xxs)
         }
-        .foregroundColor(Color.theme.textPrimary)
-        .frame(maxWidth: .infinity)
-        .frame(height: 44)
-        .padding(.horizontal, Spacing.sm)
-        .background(Color.theme.surface)
     }
 
     @ViewBuilder

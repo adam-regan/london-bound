@@ -21,7 +21,7 @@ struct StatusGroupView: View {
                     .foregroundColor(Color.theme.textSecondary)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            VStack(spacing: 0) {
+            CustomList {
                 ForEach(lines.indices, id: \.self) { index in
                     getRow(for: lines[index])
                     if index < lines.count - 1 {
@@ -32,15 +32,6 @@ struct StatusGroupView: View {
                     }
                 }
             }
-            .frame(maxWidth: .infinity)
-            .background(Color.theme.surface)
-            .clipShape(
-                RoundedRectangle(cornerRadius: CornerRadius.md)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: CornerRadius.md)
-                    .strokeBorder(Color.theme.textSecondary, lineWidth: 1).opacity(0.75)
-            )
         }
     }
 

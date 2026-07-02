@@ -12,7 +12,8 @@ import Foundation
 final class ArrivalsViewModel: ObservableObject {
     @Published private(set) var selectedStation: Station?
     @Published private(set) var arrivals: [Arrival] = []
-    @Published private(set) var searchResults: [Station] = []
+    @Published private(set) var searchResults: Loadable<[Station]> = .idle
+
     @Published var searchQuery: String = ""
 
     private var cancellables = Set<AnyCancellable>()
@@ -25,7 +26,7 @@ final class ArrivalsViewModel: ObservableObject {
 
     func selectStation(_ station: Station) {
         searchQuery = ""
-        searchResults = []
+        searchResults = .idle
         selectedStation = station
         Task {
             do {
@@ -44,7 +45,7 @@ final class ArrivalsViewModel: ObservableObject {
                 if query.count > 1 {
                     self?.search(query)
                 } else {
-                    self?.searchResults = []
+                    self?.searchResults = .idle
                 }
             }
             .store(in: &cancellables)
@@ -53,10 +54,13 @@ final class ArrivalsViewModel: ObservableObject {
     private func search(_ query: String) {
         Task {
             do {
+                if searchResults == .idle {
+                    searchResults = .loading
+                }
                 let response = try await apiService.fetchStations(name: query)
-                searchResults = response.matches
+                searchResults = .loaded(response.matches)
             } catch {
-                searchResults = []
+                searchResults = .idle
             }
         }
     }

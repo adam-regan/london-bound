@@ -8,6 +8,7 @@
 import Foundation
 
 enum Loadable<Value> {
+    case idle
     case loading
     case error(Error)
     case loaded(Value)
@@ -35,6 +36,8 @@ extension Loadable where Value: RangeReplaceableCollection {
 extension Loadable: Equatable where Value: Equatable {
     static func == (lhs: Loadable<Value>, rhs: Loadable<Value>) -> Bool {
         switch (lhs, rhs) {
+        case (.idle, .idle):
+            return true
         case (.loading, .loading):
             return true
         case let (.error(error1), .error(error2)):
@@ -59,6 +62,9 @@ extension Loadable {
 
     func simulate() async throws -> Value {
         switch self {
+        case .idle:
+            try await Task.sleep(for: .seconds(10000000000))
+            fatalError("Timeout exceeded for “idle” case preview")
         case .loading:
             try await Task.sleep(for: .seconds(10000000000))
             fatalError("Timeout exceeded for “loading” case preview")

@@ -21,7 +21,7 @@ struct StatusView: View {
                     }
                 }
                 switch viewModel.statuses {
-                case .loading, .error:
+                case .idle, .loading, .error:
                     Text("Loading")
                 case .loaded(let statuses):
                     ScrollView {
