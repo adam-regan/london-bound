@@ -27,7 +27,7 @@ class MainCoordinator: ObservableObject {
     @ViewBuilder
     func build(page: Page) -> some View {
         switch page {
-        case .line(let line):
+        case .lineDetail(let line):
             LineDetailView(line: line)
         }
     }

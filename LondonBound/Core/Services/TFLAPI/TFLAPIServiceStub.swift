@@ -2,15 +2,22 @@
 //  TFLAPIServiceStub.swift
 //  LondonBound
 //
-//  Created by Adam Regan on 01/05/2026.
+//  Created by Adam Regan on 02/07/2026.
 //
 
-final class TFLAPIServiceStub: TFLAPIServiceProtocol {
-    var result: Any?
-    var error: Error?
+#if DEBUG
+struct TFLAPIServiceStub: TFLAPIServiceProtocol {
+    func fetchLineStatus() async throws -> [Line] {
+        let fixture = GroupedStatuses.fixture
+        return fixture.disruptions + fixture.goodService
+    }
 
-    func request<T: Sendable & Decodable>(_ endpoint: TFLEndpoint, as type: T.Type) async throws -> T {
-        if let error { throw error }
-        return result as! T
+    func fetchStations(name: String) async throws -> StationSearchResponse {
+        StationSearchResponse(query: name, total: 0, matches: [])
+    }
+
+    func fetchArrivals(stationId: String) async throws -> [Arrival] {
+        []
     }
 }
+#endif

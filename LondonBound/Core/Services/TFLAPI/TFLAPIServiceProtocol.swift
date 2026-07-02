@@ -6,5 +6,7 @@
 //
 
 protocol TFLAPIServiceProtocol {
-    func request<T: Sendable & Decodable>(_ endpoint: TFLEndpoint, as type: T.Type) async throws -> T
+    func fetchLineStatus() async throws -> [Line]
+    func fetchStations(name: String) async throws -> StationSearchResponse
+    func fetchArrivals(stationId: String) async throws -> [Arrival]
 }

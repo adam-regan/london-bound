@@ -51,7 +51,7 @@ struct StatusGroupView: View {
 
         } else {
             Button {
-                coordinator.push(.line(line))
+                coordinator.push(.lineDetail(line))
             } label: {
                 StatusRowView(line: line)
             }
@@ -67,7 +67,7 @@ struct StatusGroupView: View {
                 lines: GroupedStatuses.fixture.goodService
             )
             .environmentObject(StatusViewModel(
-                tflAPIService: TFLAPIService()
+                tflAPIService: TFLAPIServiceStub()
             )).environmentObject(MainCoordinator())
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

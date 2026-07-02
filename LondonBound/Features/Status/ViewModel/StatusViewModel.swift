@@ -9,7 +9,7 @@ import Foundation
 internal import Combine
 
 @MainActor
-class StatusViewModel: ObservableObject {
+final class StatusViewModel: ObservableObject {
     @Published var statuses: Loadable<GroupedStatuses> = .loading
     @Published var timeUpdated: String?
 
@@ -24,9 +24,9 @@ class StatusViewModel: ObservableObject {
     func startPolling() {
         pollingTask?.cancel()
 
-        pollingTask = Task {
+        pollingTask = Task { [weak self] in
             while !Task.isCancelled {
-                fetchStatuses()
+                self?.fetchStatuses()
                 do {
                     try await Task.sleep(nanoseconds: 60_000_000_000)
                 } catch {
@@ -50,7 +50,7 @@ class StatusViewModel: ObservableObject {
     private func fetchStatuses() {
         Task {
             do {
-                let response = try await apiService.request(.lineStatusByMode(modes: [.tube, .dlr, .elizabeth, .overground]), as: [Line].self)
+                let response = try await apiService.fetchLineStatus()
                 let grouped = GroupedStatuses(
                     goodService: sortLines(response
                         .filter {

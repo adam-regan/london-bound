@@ -14,7 +14,23 @@ final class TFLAPIService: TFLAPIServiceProtocol {
         self.session = session
     }
 
-    func request<T: Sendable & Decodable>(_ endpoint: TFLEndpoint, as type: T.Type) async throws -> T {
+    func fetchLineStatus() async throws -> [Line] {
+        try await request(.lineStatus)
+    }
+
+    func fetchStations(name: String) async throws -> StationSearchResponse {
+        try await request(.stationByName(name: name))
+    }
+
+    func fetchArrivals(stationId: String) async throws -> [Arrival] {
+        let lossy: LossyDecodableArray<Arrival> = try await request(.arrivals(stationId: stationId))
+        var seen = Set<String>()
+        let unique: [Arrival] = lossy.elements.filter { seen.insert($0.id).inserted }
+        
+        return unique.sorted {$0.timeToStation < $1.timeToStation}
+    }
+
+    private func request<T: Sendable & Decodable>(_ endpoint: TFLEndpoint) async throws -> T {
         guard let url = buildURL(endpoint) else {
             throw URLError(.badURL)
         }

@@ -6,7 +6,7 @@
 //
 
 struct Line: nonisolated Decodable, Sendable, Identifiable, Hashable {
-    let id: String
+    let id: LineID
     let name: String
     let modeName: String
     let lineStatuses: [LineStatus]

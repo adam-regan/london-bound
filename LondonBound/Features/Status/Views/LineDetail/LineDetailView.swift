@@ -44,7 +44,7 @@ struct LineDetailView: View {
 #Preview {
     NavigationStack {
         LineDetailView(line: GroupedStatuses.fixture.disruptions[0]).environmentObject(StatusViewModel(
-            tflAPIService: TFLAPIService()
+            tflAPIService: TFLAPIServiceStub()
         ))
     }
 }

@@ -7,12 +7,12 @@
 
 struct SeverityLevel: Decodable, Sendable, Hashable {
     let value: Int
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         value = try container.decode(Int.self)
     }
-    
+
     init(value: Int) {
         self.value = value
     }

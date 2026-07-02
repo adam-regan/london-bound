@@ -13,16 +13,7 @@ struct StatusRowView: View {
     let line: Line
     var body: some View {
         HStack {
-            Circle()
-                .foregroundColor(line.color)
-                .frame(width: 14)
-                .overlay(
-                    Circle()
-                        .strokeBorder(
-                            .white,
-                            lineWidth: 1
-                        ).opacity(0.75)
-                )
+            LineCircle(lineID: line.id)
             Text(line.name)
             Spacer()
             getStatusMarker(for: line)
@@ -55,13 +46,13 @@ struct StatusRowView: View {
 #Preview("Good") {
     StatusRowView(line: GroupedStatuses.fixture.goodService[0])
         .environmentObject(StatusViewModel(
-            tflAPIService: TFLAPIService()
+            tflAPIService: TFLAPIServiceStub()
         ))
 }
 
 #Preview("Minor") {
     StatusRowView(line: GroupedStatuses.fixture.disruptions[0])
         .environmentObject(StatusViewModel(
-            tflAPIService: TFLAPIService()
+            tflAPIService: TFLAPIServiceStub()
         ))
 }

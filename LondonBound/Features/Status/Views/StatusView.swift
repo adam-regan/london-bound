@@ -13,12 +13,8 @@ struct StatusView: View {
 
     var body: some View {
         NavigationStack(path: $coordinator.path) {
-            VStack {
-                HStack {
-                    Text("Line Status")
-                        .font(.title)
-                        .fontWeight(.bold)
-                    Spacer()
+            TabContent {
+                Header(title: "Line Status") {
                     if let timeUpdated = viewModel.timeUpdated {
                         Text("updated \(timeUpdated)")
                             .font(.subheadline)
@@ -50,14 +46,7 @@ struct StatusView: View {
                     .scrollIndicators(.hidden)
                 }
             }
-            .foregroundColor(.theme.textPrimary)
-            .padding(.horizontal, Spacing.md)
-            .frame(
-                maxWidth: .infinity,
-                maxHeight: .infinity,
-                alignment: .topLeading
-            )
-            .background(Color.theme.background)
+
             .task {
                 viewModel.startPolling()
             }
@@ -68,11 +57,14 @@ struct StatusView: View {
                 coordinator.build(page: page)
             }
         }
+        .background(Color.theme.background)
     }
 }
 
 #Preview {
-    StatusView().environmentObject(StatusViewModel(
-        tflAPIService: TFLAPIService()
-    ))
+    StatusView()
+        .environmentObject(StatusViewModel(
+            tflAPIService: TFLAPIServiceStub()
+        ))
+        .environmentObject(MainCoordinator())
 }

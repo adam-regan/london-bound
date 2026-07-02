@@ -6,5 +6,5 @@
 //
 
 enum Page: Hashable {
-    case line(_ line: Line)
+    case lineDetail(_ line: Line)
 }
