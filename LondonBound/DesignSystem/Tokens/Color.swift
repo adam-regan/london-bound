@@ -19,6 +19,7 @@ struct ColorTheme {
     let primary = Color("AppPrimary")
     let secondary = Color("AppSecondary")
     let surface = Color("Surface")
+    let surfaceSecondary = Color("SurfaceSecondary")
     let textPrimary = Color("TextPrimary")
     let textSecondary = Color("TextSecondary")
 

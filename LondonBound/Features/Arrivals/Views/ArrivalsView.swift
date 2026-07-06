@@ -31,7 +31,7 @@ struct ArrivalsView: View {
             .textFieldStyle(.plain)
             .padding(.horizontal, Spacing.md)
             .frame(height: 50)
-            .background(.surface)
+            .background(.surfaceSecondary)
             .foregroundStyle(.textPrimary)
             .clipShape(RoundedRectangle(cornerRadius: CornerRadius.md))
             .overlay(
@@ -46,6 +46,7 @@ struct ArrivalsView: View {
                 switch viewModel.searchResults {
                 case .idle, .error:
                     EmptyView()
+
                 case .loading:
                     HStack {
                         ProgressView()
@@ -53,7 +54,13 @@ struct ArrivalsView: View {
                     }
                     .frame(maxWidth: .infinity)
                     .frame(height: rowHeight)
-                    .background(.surface)
+                    .clipShape(RoundedRectangle(cornerRadius: CornerRadius.md))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: CornerRadius.md)
+                            .strokeBorder(Color.theme.textSecondary, lineWidth: 1).opacity(0.75)
+                    )
+                    .shadow(color: .white.opacity(0.2), radius: 8, y: 4)
+                    .background(.surfaceSecondary)
                     .offset(y: rowHeight)
 
                 case .loaded(let results):
@@ -75,7 +82,13 @@ struct ArrivalsView: View {
                             }
                         }
                         .padding(.horizontal, Spacing.md)
-                        .background(.surface)
+                        .background(.surfaceSecondary)
+                        .clipShape(RoundedRectangle(cornerRadius: CornerRadius.md))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: CornerRadius.md)
+                                .strokeBorder(Color.theme.textSecondary, lineWidth: 1).opacity(0.75)
+                        )
+                        .shadow(color: .white.opacity(0.2), radius: 8, y: 4)
                         .frame(height: rowHeight * min(CGFloat(results.count), 5))
                         .offset(y: rowHeight)
                         .scrollIndicators(.hidden)

@@ -22,7 +22,9 @@ struct StatusView: View {
                 }
                 switch viewModel.statuses {
                 case .idle, .loading, .error:
-                    Text("Loading")
+                    ProgressView()
+                        .tint(.textPrimary)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 case .loaded(let statuses):
                     ScrollView {
                         VStack {
