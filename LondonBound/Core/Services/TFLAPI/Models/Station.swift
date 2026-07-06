@@ -7,9 +7,15 @@
 
 struct Station: nonisolated Decodable, Sendable, Identifiable, Hashable {
     let id: String
-    let name: String
+    private let rawName: String
+    var name: String { cleanStationName(rawName) }
+
     let icsId: String
     let zone: String
     let lat: Double
     let lon: Double
+
+    enum CodingKeys: String, CodingKey {
+        case id, rawName = "name", icsId, zone, lat, lon
+    }
 }

@@ -25,9 +25,15 @@ final class TFLAPIService: TFLAPIServiceProtocol {
     func fetchArrivals(stationId: String) async throws -> [Arrival] {
         let lossy: LossyDecodableArray<Arrival> = try await request(.arrivals(stationId: stationId))
         var seen = Set<String>()
-        let unique: [Arrival] = lossy.elements.filter { seen.insert($0.id).inserted }
+        let filtered: [Arrival] = lossy.elements.filter {
+            if let timeInMins = Int($0.timeToStationInMinutes) {
+                seen.insert($0.id).inserted && timeInMins <= 90
+            } else {
+                seen.insert($0.id).inserted
+            }
+        }
         
-        return unique.sorted {$0.timeToStation < $1.timeToStation}
+        return filtered.sorted {$0.timeToStation < $1.timeToStation}
     }
 
     private func request<T: Sendable & Decodable>(_ endpoint: TFLEndpoint) async throws -> T {
@@ -56,7 +62,7 @@ final class TFLAPIService: TFLAPIServiceProtocol {
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
-            throw TFLError.decodingError
+            throw error
         }
     }
 
