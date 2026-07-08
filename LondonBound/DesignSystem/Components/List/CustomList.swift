@@ -1,5 +1,5 @@
 //
-//  ListRow.swift
+//  CustomList.swift
 //  LondonBound
 //
 //  Created by Adam Regan on 02/07/2026.
@@ -27,5 +27,5 @@ struct CustomList<Content: View>: View {
 }
 
 #Preview {
-    ListRow {}
+    CustomList {}
 }

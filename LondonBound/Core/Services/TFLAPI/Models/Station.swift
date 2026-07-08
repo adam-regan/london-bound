@@ -8,7 +8,9 @@
 struct Station: nonisolated Decodable, Sendable, Identifiable, Hashable {
     let id: String
     private let rawName: String
-    var name: String { cleanStationName(rawName) }
+    var name: String {
+        cleanStationName(rawName)
+    }
 
     let icsId: String
     let zone: String

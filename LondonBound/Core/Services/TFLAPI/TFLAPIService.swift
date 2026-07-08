@@ -22,6 +22,16 @@ final class TFLAPIService: TFLAPIServiceProtocol {
         try await request(.stationByName(name: name))
     }
 
+    func fetchNearby(coords: Coordinate) async throws -> [NearbyStation] {
+        let response: NearbyStationsResponse = try await request(.nearby(coords: coords))
+        let validModes = Set(TransportMode.allCases.map(\.apiKey))
+        var seen = Set<String>()
+        return response.places.filter { station in
+            station.modes.contains(where: { validModes.contains($0) })
+            && seen.insert(station.name).inserted
+        }
+    }
+
     func fetchArrivals(stationId: String) async throws -> [Arrival] {
         let lossy: LossyDecodableArray<Arrival> = try await request(.arrivals(stationId: stationId))
         var seen = Set<String>()
@@ -32,8 +42,8 @@ final class TFLAPIService: TFLAPIServiceProtocol {
                 seen.insert($0.id).inserted
             }
         }
-        
-        return filtered.sorted {$0.timeToStation < $1.timeToStation}
+
+        return filtered.sorted { $0.timeToStation < $1.timeToStation }
     }
 
     private func request<T: Sendable & Decodable>(_ endpoint: TFLEndpoint) async throws -> T {

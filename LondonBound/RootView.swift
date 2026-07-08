@@ -10,13 +10,9 @@ import SwiftUI
 struct RootView: View {
     @State private var selectedTab: Tab = .status
     @StateObject private var statusCoordinator = MainCoordinator()
-    @StateObject private var statusViewModel: StatusViewModel
-    @StateObject private var arrivalsViewModel: ArrivalsViewModel
-
-    init(api: TFLAPIServiceProtocol = TFLAPIService()) {
-        _statusViewModel = StateObject(wrappedValue: StatusViewModel(tflAPIService: api))
-        _arrivalsViewModel = StateObject(wrappedValue: ArrivalsViewModel(tflAPIService: api))
-    }
+    @ObservedObject var statusViewModel: StatusViewModel
+    @ObservedObject var arrivalsViewModel: ArrivalsViewModel
+    @ObservedObject var nearbyViewModel: NearbyViewModel
 
     var body: some View {
         VStack(spacing: 0) {
@@ -29,7 +25,7 @@ struct RootView: View {
                     case .arrivals:
                         ArrivalsView(viewModel: arrivalsViewModel)
                     case .nearby:
-                        Text("nearby")
+                        NearbyView(viewModel: nearbyViewModel)
                     case .saved:
                         Text("saved")
                 }
@@ -44,5 +40,10 @@ struct RootView: View {
 }
 
 #Preview {
-    RootView(api: TFLAPIServiceStub())
+    let api = TFLAPIServiceStub()
+    RootView(
+        statusViewModel: StatusViewModel(tflAPIService: api),
+        arrivalsViewModel: ArrivalsViewModel(tflAPIService: api),
+        nearbyViewModel: NearbyViewModel(tflAPIService: api, locationProvider: LocationProviderStub())
+    )
 }

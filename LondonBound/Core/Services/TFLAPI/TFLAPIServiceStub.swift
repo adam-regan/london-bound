@@ -7,6 +7,10 @@
 
 #if DEBUG
 struct TFLAPIServiceStub: TFLAPIServiceProtocol {
+    func fetchNearby(coords: Coordinate) async throws -> [NearbyStation] {
+        []
+    }
+
     func fetchLineStatus() async throws -> [Line] {
         let fixture = GroupedStatuses.fixture
         return fixture.disruptions + fixture.goodService

@@ -11,6 +11,7 @@ enum TFLEndpoint {
     case lineStatus
     case stationByName(name: String)
     case arrivals(stationId: String)
+    case nearby(coords: Coordinate)
 
     var path: String {
         let modesString = TransportMode.allCases.map(\.apiKey).joined(separator: ",")
@@ -23,6 +24,8 @@ enum TFLEndpoint {
             return "/StopPoint/Search/\(name)"
         case .arrivals(let stationId):
             return "/Line/\(allLineIDs)/Arrivals/\(stationId)"
+        case .nearby:
+            return "/Place"
         }
     }
 
@@ -39,6 +42,13 @@ enum TFLEndpoint {
             ]
         case .arrivals:
             return []
+        case .nearby(let coords):
+            return [
+                URLQueryItem(name: "radius", value: "3000"),
+                URLQueryItem(name: "type", value: "NaptanMetroEntrance,NaptanRailEntrance"),
+                URLQueryItem(name: "lat", value: "\(coords.lat)"),
+                URLQueryItem(name: "lon", value: "\(coords.lon)")
+            ]
         }
     }
 }

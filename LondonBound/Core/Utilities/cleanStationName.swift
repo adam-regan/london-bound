@@ -9,22 +9,21 @@ import Foundation
 
 func cleanStationName(_ raw: String) -> String {
     var name = raw
-    
-    let suffixes = [
-        " Underground Station",
-        " Rail Station",
-        " DLR Station",
-        " Overground Station",
-        " Elizabeth line Station",
-        " Station"
+
+    let replacements: [(suffix: String, replacement: String)] = [
+        (" Underground Station", ""),
+        (" Overground Station", " (Overground)"),
+        (" DLR Station", " (DLR)"),
+        (" Elizabeth line Station", " (Elizabeth line)"),
+        (" Rail Station", " (Rail)"),
+        (" Station", "")
     ]
-    for suffix in suffixes {
-        if name.hasSuffix(suffix) {
-            name = String(name.dropLast(suffix.count))
+    for pair in replacements {
+        if name.hasSuffix(pair.suffix) {
+            name = String(name.dropLast(pair.suffix.count)) + pair.replacement
             break
         }
     }
-    
-    
+
     return name.trimmingCharacters(in: .whitespaces)
 }
