@@ -8,13 +8,15 @@
 import SwiftUI
 
 struct ArrivalsList: View {
-    var stationName: String
+    var stationName: String?
     var arrivals: Loadable<[Arrival]>
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
-            Text(stationName)
-                .font(.title3.bold())
+            if let stationName = stationName {
+                Text(stationName)
+                    .font(.title3.bold())
+            }
             switch arrivals {
             case .idle, .error:
                 EmptyView()

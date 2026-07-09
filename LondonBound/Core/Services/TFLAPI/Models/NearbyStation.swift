@@ -11,7 +11,7 @@ struct NearbyStationsResponse: nonisolated Decodable, Sendable {
     let places: [NearbyStation]
 }
 
-struct NearbyStation: nonisolated Decodable, Sendable, Identifiable {
+struct NearbyStation: nonisolated Decodable, Sendable, Identifiable, Hashable {
     let naptanId: String
     let stationNaptan: String?
     let commonName: String
@@ -40,7 +40,7 @@ struct NearbyStation: nonisolated Decodable, Sendable, Identifiable {
         }
     }
 
-    struct NearbyLine: Decodable, Sendable {
+    struct NearbyLine: Decodable, Sendable, Hashable {
         let id: String
         let name: String
     }

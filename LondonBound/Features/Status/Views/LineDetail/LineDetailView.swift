@@ -11,33 +11,13 @@ struct LineDetailView: View {
     @Environment(\.dismiss) private var dismiss
     var line: Line
     var body: some View {
-        VStack {
-            ZStack {
-                HStack {
-                    Button(
-                        "Back",
-                        systemImage: "chevron.left",
-                        action: dismiss.callAsFunction
-                    )
-                    .labelStyle(.iconOnly)
-                    .imageScale(.large)
-                }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                Text(line.name)
-                    .font(.title)
-            }
-            .foregroundStyle(Color.theme.textPrimary)
+        PageContent(navigationTitle: line.name) {
             VStack {
                 ForEach(line.lineStatuses) { status in
                     DisruptionCardView(status: status)
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .padding(.horizontal, Spacing.md)
-        .background(Color.theme.background)
-        .navigationBarBackButtonHidden(true)
-        .toolbar(.hidden, for: .navigationBar)
     }
 }
 

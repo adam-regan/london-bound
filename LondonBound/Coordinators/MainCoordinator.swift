@@ -12,6 +12,12 @@ import SwiftUI
 class MainCoordinator: ObservableObject {
     @Published var path = NavigationPath()
 
+    var tflAPIService: TFLAPIServiceProtocol?
+
+    init(tflAPIService: TFLAPIServiceProtocol? = nil) {
+        self.tflAPIService = tflAPIService
+    }
+
     func push(_ page: Page) {
         path.append(page)
     }
@@ -29,6 +35,10 @@ class MainCoordinator: ObservableObject {
         switch page {
         case .lineDetail(let line):
             LineDetailView(line: line)
+        case .nearbyDetails(let nearby):
+            if let api = tflAPIService {
+                NearbyDetailView(station: nearby, tflAPIService: api)
+            }
         }
     }
 }

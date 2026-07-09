@@ -7,4 +7,5 @@
 
 enum Page: Hashable {
     case lineDetail(_ line: Line)
+    case nearbyDetails(_ nearbyStation: NearbyStation)
 }

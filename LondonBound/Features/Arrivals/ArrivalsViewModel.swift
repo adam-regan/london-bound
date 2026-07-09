@@ -69,7 +69,7 @@ final class ArrivalsViewModel: ObservableObject {
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { [weak self] query in
-                if query.count > 1 {
+                if query.count > 2 {
                     self?.search(query)
                 } else {
                     self?.searchResults = .idle

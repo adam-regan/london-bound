@@ -10,10 +10,17 @@ import SwiftUI
 struct RootView: View {
     @State private var selectedTab: Tab = .status
     @StateObject private var statusCoordinator = MainCoordinator()
-    @StateObject private var nearbyCoordinator = MainCoordinator()
-    @ObservedObject var statusViewModel: StatusViewModel
-    @ObservedObject var arrivalsViewModel: ArrivalsViewModel
-    @ObservedObject var nearbyViewModel: NearbyViewModel
+    @StateObject private var nearbyCoordinator: MainCoordinator
+    @StateObject private var statusViewModel: StatusViewModel
+    @StateObject private var arrivalsViewModel: ArrivalsViewModel
+    @StateObject private var nearbyViewModel: NearbyViewModel
+
+    init(tflAPIService: TFLAPIServiceProtocol, locationProvider: LocationProviderProtocol) {
+        _nearbyCoordinator = StateObject(wrappedValue: MainCoordinator(tflAPIService: tflAPIService))
+        _statusViewModel = StateObject(wrappedValue: StatusViewModel(tflAPIService: tflAPIService))
+        _arrivalsViewModel = StateObject(wrappedValue: ArrivalsViewModel(tflAPIService: tflAPIService))
+        _nearbyViewModel = StateObject(wrappedValue: NearbyViewModel(tflAPIService: tflAPIService, locationProvider: locationProvider))
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -26,7 +33,7 @@ struct RootView: View {
                     case .arrivals:
                         ArrivalsView(viewModel: arrivalsViewModel)
                     case .nearby:
-                    NearbyView(viewModel: nearbyViewModel, coordinator: nearbyCoordinator)
+                        NearbyView(viewModel: nearbyViewModel, coordinator: nearbyCoordinator)
                     case .saved:
                         Text("saved")
                 }
@@ -41,10 +48,8 @@ struct RootView: View {
 }
 
 #Preview {
-    let api = TFLAPIServiceStub()
     RootView(
-        statusViewModel: StatusViewModel(tflAPIService: api),
-        arrivalsViewModel: ArrivalsViewModel(tflAPIService: api),
-        nearbyViewModel: NearbyViewModel(tflAPIService: api, locationProvider: LocationProviderStub())
+        tflAPIService: TFLAPIServiceStub(),
+        locationProvider: LocationProviderStub()
     )
 }

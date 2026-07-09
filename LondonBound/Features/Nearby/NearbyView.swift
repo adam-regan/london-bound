@@ -32,6 +32,10 @@ struct NearbyView: View {
                                     Spacer()
                                     Text(stop.formattedDistance)
                                         .font(.subheadline)
+                                    Image(systemName: "chevron.right")
+                                }
+                                .onTapGesture {
+                                    coordinator.push(.nearbyDetails(stop))
                                 }
                                 if index < nearby.count - 1 {
                                     Divider()
@@ -52,6 +56,7 @@ struct NearbyView: View {
                 coordinator.build(page: page)
             }
         }
+        .background(Color.theme.background)
     }
 }
 
