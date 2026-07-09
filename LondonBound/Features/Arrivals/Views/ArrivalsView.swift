@@ -79,12 +79,16 @@ struct ArrivalsView: View {
                         ScrollView {
                             LazyVStack(alignment: .leading, spacing: 0) {
                                 ForEach(results) { result in
-                                    Text(result.name)
-                                        .frame(height: rowHeight)
-                                        .onTapGesture {
-                                            viewModel.selectStation(result)
-                                            isSearchFocused.toggle()
-                                        }
+                                    HStack {
+                                        Text(result.name)
+                                    }
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .frame(height: rowHeight)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture {
+                                        viewModel.selectStation(result)
+                                        isSearchFocused.toggle()
+                                    }
                                     if result != results.last {
                                         Divider()
                                             .overlay(.textSecondary)
