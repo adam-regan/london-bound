@@ -9,34 +9,41 @@ import SwiftUI
 
 struct ArrivalsList: View {
     var stationName: String
-    var arrivals: [Arrival]
+    var arrivals: Loadable<[Arrival]>
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text(stationName)
                 .font(.title3.bold())
-            ScrollView {
-                CustomList {
-                    ForEach(arrivals) { arrival in
-                        ListRow {
-                            LineCircle(lineID: arrival.lineId)
-                            Text(arrival.destinationName)
-                            Spacer()
-                            VStack {
-                                Text(arrival.timeToStationInMinutes)
-                                Text("min")
-                                    .font(.footnote)
+            switch arrivals {
+            case .idle, .error:
+                EmptyView()
+            case .loading:
+                ProgressView()
+            case .loaded(let arrivalsList):
+                ScrollView {
+                    CustomList {
+                        ForEach(arrivalsList) { arrival in
+                            ListRow {
+                                LineCircle(lineID: arrival.lineId)
+                                Text(arrival.destinationName)
+                                Spacer()
+                                VStack {
+                                    Text(arrival.timeToStationInMinutes)
+                                    Text("min")
+                                        .font(.footnote)
+                                }
+                            }
+                            if arrival != arrivalsList.last {
+                                Divider()
+                                    .background(
+                                        Color.theme.textSecondary
+                                    )
                             }
                         }
-                        if arrival != arrivals.last {
-                            Divider()
-                                .background(
-                                    Color.theme.textSecondary
-                                )
-                        }
                     }
+                    Color.clear.frame(height: Spacing.xs)
                 }
-                Color.clear.frame(height: Spacing.xs)
             }
         }
         .padding(.top, 8)
@@ -45,5 +52,5 @@ struct ArrivalsList: View {
 }
 
 #Preview {
-    ArrivalsList(stationName: "Euston Station", arrivals: [])
+    ArrivalsList(stationName: "Euston Station", arrivals: .idle)
 }

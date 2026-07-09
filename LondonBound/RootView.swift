@@ -10,6 +10,7 @@ import SwiftUI
 struct RootView: View {
     @State private var selectedTab: Tab = .status
     @StateObject private var statusCoordinator = MainCoordinator()
+    @StateObject private var nearbyCoordinator = MainCoordinator()
     @ObservedObject var statusViewModel: StatusViewModel
     @ObservedObject var arrivalsViewModel: ArrivalsViewModel
     @ObservedObject var nearbyViewModel: NearbyViewModel
@@ -25,7 +26,7 @@ struct RootView: View {
                     case .arrivals:
                         ArrivalsView(viewModel: arrivalsViewModel)
                     case .nearby:
-                        NearbyView(viewModel: nearbyViewModel)
+                    NearbyView(viewModel: nearbyViewModel, coordinator: nearbyCoordinator)
                     case .saved:
                         Text("saved")
                 }

@@ -11,10 +11,17 @@ import Foundation
 @MainActor
 final class ArrivalsViewModel: ObservableObject {
     @Published private(set) var selectedStation: Station?
-    @Published private(set) var arrivals: [Arrival] = []
+    @Published private(set) var arrivals: Loadable<[Arrival]> = .idle
     @Published private(set) var searchResults: Loadable<[Station]> = .idle
+    @Published private(set) var timeUpdated: String?
 
     @Published var searchQuery: String = ""
+
+    private lazy var poller = Poller(interval: 30) { [weak self] in
+        if let station = self?.selectedStation {
+            self?.fetchArrivals(stationId: station.id)
+        }
+    }
 
     private var cancellables = Set<AnyCancellable>()
     private let apiService: TFLAPIServiceProtocol
@@ -28,11 +35,31 @@ final class ArrivalsViewModel: ObservableObject {
         searchQuery = ""
         searchResults = .idle
         selectedStation = station
+        poller.start()
+    }
+
+    func startPolling() {
+        poller.start()
+    }
+
+    func stopPolling() {
+        poller.stop()
+    }
+
+    private func fetchArrivals(stationId: String) {
+        if arrivals == .idle {
+            arrivals = .loading
+        }
+
         Task {
             do {
-                arrivals = try await apiService.fetchArrivals(stationId: station.id)
+                arrivals = try .loaded(await apiService.fetchArrivals(stationId: stationId))
+                let now = Date()
+                let formatter = DateFormatter()
+                formatter.dateFormat = "H:mm"
+                timeUpdated = formatter.string(from: now)
             } catch {
-                print("Failed to fetch arrivals: \(error)")
+                arrivals = .error(error)
             }
         }
     }

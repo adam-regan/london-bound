@@ -14,7 +14,12 @@ struct ArrivalsView: View {
 
     var body: some View {
         TabContent {
-            Header(title: "Arrivals")
+            Header(title: "Arrivals") {
+                if let timeUpdated = viewModel.timeUpdated {
+                    Text("updated \(timeUpdated)")
+                        .font(.subheadline)
+                }
+            }
             searchField
             if let selectedStation = viewModel.selectedStation {
                 ArrivalsList(
@@ -22,6 +27,12 @@ struct ArrivalsView: View {
                     arrivals: viewModel.arrivals
                 )
             }
+        }
+        .task {
+            viewModel.startPolling()
+        }
+        .onDisappear {
+            viewModel.stopPolling()
         }
     }
 

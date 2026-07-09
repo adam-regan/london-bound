@@ -13,31 +13,19 @@ final class StatusViewModel: ObservableObject {
     @Published var statuses: Loadable<GroupedStatuses> = .loading
     @Published var timeUpdated: String?
 
-    private var pollingTask: Task<Void, Never>?
-
     private let apiService: TFLAPIServiceProtocol
+    private lazy var poller = Poller { [weak self] in self?.fetchStatuses() }
 
     init(tflAPIService: TFLAPIServiceProtocol) {
         apiService = tflAPIService
     }
 
     func startPolling() {
-        pollingTask?.cancel()
-
-        pollingTask = Task { [weak self] in
-            while !Task.isCancelled {
-                self?.fetchStatuses()
-                do {
-                    try await Task.sleep(nanoseconds: 60_000_000_000)
-                } catch {
-                    break
-                }
-            }
-        }
+        poller.start()
     }
 
     func stopPolling() {
-        pollingTask?.cancel()
+        poller.stop()
     }
 
     func getWorstLineStatus(line: Line) -> LineStatus? {
