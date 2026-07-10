@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct PageContent<Content: View>: View {
+struct PageContent<Content: View, Trailing: View>: View {
     var navigationTitle: String
     @ViewBuilder let content: Content
+    @ViewBuilder var trailing: Trailing
     @Environment(\.dismiss) private var dismiss
 
     var body: some View {
@@ -23,8 +24,10 @@ struct PageContent<Content: View>: View {
                     )
                     .labelStyle(.iconOnly)
                     .imageScale(.large)
+                    Spacer()
+                    trailing
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity)
                 Text(navigationTitle)
                     .font(.title)
             }
@@ -36,6 +39,12 @@ struct PageContent<Content: View>: View {
         .background(Color.theme.background)
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
+    }
+}
+
+extension PageContent where Trailing == EmptyView {
+    init(navigationTitle: String, @ViewBuilder content: () -> Content) {
+        self.init(navigationTitle: navigationTitle, content: content, trailing: { EmptyView() })
     }
 }
 

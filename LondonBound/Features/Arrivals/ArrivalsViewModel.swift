@@ -14,6 +14,7 @@ final class ArrivalsViewModel: ObservableObject {
     @Published private(set) var arrivals: Loadable<[Arrival]> = .idle
     @Published private(set) var searchResults: Loadable<[Station]> = .idle
     @Published private(set) var timeUpdated: String?
+    @Published private(set) var isSelectedStationSaved = false
 
     @Published var searchQuery: String = ""
 
@@ -25,10 +26,24 @@ final class ArrivalsViewModel: ObservableObject {
 
     private var cancellables = Set<AnyCancellable>()
     private let apiService: TFLAPIServiceProtocol
+    private let savedStations: SavedStationsRepositoryProtocol
 
-    init(tflAPIService: TFLAPIServiceProtocol) {
+    init(tflAPIService: TFLAPIServiceProtocol, savedStationsRepository: SavedStationsRepositoryProtocol) {
         apiService = tflAPIService
+        savedStations = savedStationsRepository
         observeSearchText()
+        observeSavedState()
+    }
+
+    func toggleSaved() {
+        guard let station = selectedStation else { return }
+        Task {
+            if isSelectedStationSaved {
+                await savedStations.remove(id: station.id)
+            } else {
+                await savedStations.save(SavedStation(station))
+            }
+        }
     }
 
     func selectStation(_ station: Station) {
@@ -62,6 +77,16 @@ final class ArrivalsViewModel: ObservableObject {
                 arrivals = .error(error)
             }
         }
+    }
+
+    private func observeSavedState() {
+        Publishers.CombineLatest($selectedStation, savedStations.stations)
+            .map { station, saved in
+                guard let station else { return false }
+                return saved.contains { $0.id == station.id }
+            }
+            .receive(on: DispatchQueue.main)
+            .assign(to: &$isSelectedStationSaved)
     }
 
     private func observeSearchText() {

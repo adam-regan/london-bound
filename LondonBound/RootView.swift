@@ -14,12 +14,14 @@ struct RootView: View {
     @StateObject private var statusViewModel: StatusViewModel
     @StateObject private var arrivalsViewModel: ArrivalsViewModel
     @StateObject private var nearbyViewModel: NearbyViewModel
+    @StateObject private var savedViewModel: SavedViewModel
 
-    init(tflAPIService: TFLAPIServiceProtocol, locationProvider: LocationProviderProtocol) {
-        _nearbyCoordinator = StateObject(wrappedValue: MainCoordinator(tflAPIService: tflAPIService))
-        _statusViewModel = StateObject(wrappedValue: StatusViewModel(tflAPIService: tflAPIService))
-        _arrivalsViewModel = StateObject(wrappedValue: ArrivalsViewModel(tflAPIService: tflAPIService))
-        _nearbyViewModel = StateObject(wrappedValue: NearbyViewModel(tflAPIService: tflAPIService, locationProvider: locationProvider))
+    init(dependencies: AppDependencies) {
+        _nearbyCoordinator = StateObject(wrappedValue: MainCoordinator(dependencies: dependencies))
+        _statusViewModel = StateObject(wrappedValue: StatusViewModel(tflAPIService: dependencies.tflAPIService))
+        _arrivalsViewModel = StateObject(wrappedValue: ArrivalsViewModel(tflAPIService: dependencies.tflAPIService, savedStationsRepository: dependencies.savedStationsRepository))
+        _nearbyViewModel = StateObject(wrappedValue: NearbyViewModel(tflAPIService: dependencies.tflAPIService, locationProvider: dependencies.locationProvider))
+        _savedViewModel = StateObject(wrappedValue: SavedViewModel(repository: dependencies.savedStationsRepository))
     }
 
     var body: some View {
@@ -35,7 +37,7 @@ struct RootView: View {
                     case .nearby:
                         NearbyView(viewModel: nearbyViewModel, coordinator: nearbyCoordinator)
                     case .saved:
-                        Text("saved")
+                        SavedView(viewModel: savedViewModel)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -48,8 +50,5 @@ struct RootView: View {
 }
 
 #Preview {
-    RootView(
-        tflAPIService: TFLAPIServiceStub(),
-        locationProvider: LocationProviderStub()
-    )
+    RootView(dependencies: .preview)
 }

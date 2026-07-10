@@ -25,7 +25,15 @@ struct ArrivalsView: View {
                 ArrivalsList(
                     stationName: selectedStation.name,
                     arrivals: viewModel.arrivals
-                )
+                ) {
+                    Button {
+                        viewModel.toggleSaved()
+                    } label: {
+                        Image(systemName: viewModel.isSelectedStationSaved ? "bookmark.fill" : "bookmark")
+                            .imageScale(.large)
+                    }
+                    .foregroundStyle(Color.theme.textPrimary)
+                }
             }
         }
         .task {
@@ -115,5 +123,5 @@ struct ArrivalsView: View {
 }
 
 #Preview {
-    ArrivalsView(viewModel: ArrivalsViewModel(tflAPIService: TFLAPIServiceStub()))
+    ArrivalsView(viewModel: ArrivalsViewModel(tflAPIService: TFLAPIServiceStub(), savedStationsRepository: SavedStationsRepositoryStub()))
 }

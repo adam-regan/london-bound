@@ -11,17 +11,29 @@ struct NearbyDetailView: View {
     let station: NearbyStation
     @StateObject private var viewModel: NearbyDetailViewModel
 
-    init(station: NearbyStation, tflAPIService: TFLAPIServiceProtocol) {
+    init(station: NearbyStation, dependencies: AppDependencies) {
         self.station = station
-        _viewModel = StateObject(wrappedValue: NearbyDetailViewModel(tflAPIService: tflAPIService))
+        _viewModel = StateObject(wrappedValue: NearbyDetailViewModel(
+            station: station,
+            tflAPIService: dependencies.tflAPIService,
+            savedStationsRepository: dependencies.savedStationsRepository
+        ))
     }
 
     var body: some View {
         PageContent(navigationTitle: station.name) {
             ArrivalsList(arrivals: viewModel.arrivals)
+        } trailing: {
+            Button {
+                viewModel.toggleSaved()
+            } label: {
+                Image(systemName: viewModel.isSaved ? "bookmark.fill" : "bookmark")
+                    .imageScale(.large)
+            }
+            .foregroundStyle(Color.theme.textPrimary)
         }
         .task {
-            viewModel.fetchArrivals(stationId: station.id)
+            viewModel.fetchArrivals()
         }
     }
 }
@@ -38,6 +50,6 @@ struct NearbyDetailView: View {
             modes: ["tube"],
             lines: []
         ),
-        tflAPIService: TFLAPIServiceStub()
+        dependencies: .preview
     )
 }

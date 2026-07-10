@@ -7,15 +7,20 @@
 
 import SwiftUI
 
-struct ArrivalsList: View {
+struct ArrivalsList<Trailing: View>: View {
     var stationName: String?
     var arrivals: Loadable<[Arrival]>
+    @ViewBuilder var trailing: Trailing
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             if let stationName = stationName {
-                Text(stationName)
-                    .font(.title3.bold())
+                HStack {
+                    Text(stationName)
+                        .font(.title3.bold())
+                    Spacer()
+                    trailing
+                }
             }
             switch arrivals {
             case .idle, .error:
@@ -50,6 +55,12 @@ struct ArrivalsList: View {
         }
         .padding(.top, 8)
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+extension ArrivalsList where Trailing == EmptyView {
+    init(stationName: String? = nil, arrivals: Loadable<[Arrival]>) {
+        self.init(stationName: stationName, arrivals: arrivals, trailing: { EmptyView() })
     }
 }
 
