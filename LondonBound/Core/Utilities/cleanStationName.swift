@@ -19,7 +19,7 @@ func cleanStationName(_ raw: String) -> String {
         (" Station", "")
     ]
     for pair in replacements {
-        if name.hasSuffix(pair.suffix) {
+        if name.lowercased().hasSuffix(pair.suffix.lowercased()) {
             name = String(name.dropLast(pair.suffix.count)) + pair.replacement
             break
         }

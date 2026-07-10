@@ -19,6 +19,7 @@ struct Header<Trailing: View>: View {
             Spacer()
             trailing
         }
+        .padding(.top, Spacing.xs)
     }
 }
 
@@ -29,5 +30,7 @@ extension Header where Trailing == EmptyView {
 }
 
 #Preview {
-    Header(title: "Line Status")
+    TabContent {
+        Header(title: "Line Status")
+    }
 }
