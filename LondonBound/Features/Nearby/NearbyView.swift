@@ -12,51 +12,45 @@ struct NearbyView: View {
     @ObservedObject var coordinator: MainCoordinator
 
     var body: some View {
-        NavigationStack(path: $coordinator.path) {
-            TabContent {
-                Header(title: "Nearby")
+        TabContent {
+            Header(title: "Nearby")
 
-                switch viewModel.nearby {
-                case .idle:
-                    EmptyView()
-                case .loading:
-                    ProgressView()
-                case .error(let error):
-                    Text(error.localizedDescription)
-                case .loaded(let nearby):
-                    ScrollView {
-                        CustomList {
-                            ForEach(Array(nearby.enumerated()), id: \.element.id) { index, stop in
-                                ListRow {
-                                    Text(stop.name)
-                                    Spacer()
-                                    Text(stop.formattedDistance)
-                                        .font(.subheadline)
-                                    Image(systemName: "chevron.right")
-                                }
-                                .onTapGesture {
-                                    coordinator.push(.nearbyDetails(stop))
-                                }
-                                if index < nearby.count - 1 {
-                                    Divider()
-                                        .background(
-                                            Color.theme.textSecondary
-                                        )
-                                }
+            switch viewModel.nearby {
+            case .idle:
+                EmptyView()
+            case .loading:
+                ProgressView()
+            case .error(let error):
+                Text(error.localizedDescription)
+            case .loaded(let nearby):
+                ScrollView {
+                    CustomList {
+                        ForEach(Array(nearby.enumerated()), id: \.element.id) { index, stop in
+                            ListRow {
+                                Text(stop.name)
+                                Spacer()
+                                Text(stop.formattedDistance)
+                                    .font(.subheadline)
+                                Image(systemName: "chevron.right")
+                            }
+                            .onTapGesture {
+                                coordinator.push(.nearbyDetails(stop))
+                            }
+                            if index < nearby.count - 1 {
+                                Divider()
+                                    .background(
+                                        Color.theme.textSecondary
+                                    )
                             }
                         }
-                        Color.clear.frame(height: Spacing.xs)
                     }
+                    Color.clear.frame(height: Spacing.xs)
                 }
             }
-            .task {
-                viewModel.fetchNearby()
-            }
-            .navigationDestination(for: Page.self) { page in
-                coordinator.build(page: page)
-            }
         }
-        .background(Color.theme.background)
+        .task {
+            viewModel.fetchNearby()
+        }
     }
 }
 

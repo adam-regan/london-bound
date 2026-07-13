@@ -12,54 +12,47 @@ struct StatusView: View {
     @EnvironmentObject var coordinator: MainCoordinator
 
     var body: some View {
-        NavigationStack(path: $coordinator.path) {
-            TabContent {
-                Header(title: "Line Status") {
-                    if let timeUpdated = viewModel.timeUpdated {
-                        Text("updated \(timeUpdated)")
-                            .font(.subheadline)
-                    }
+        TabContent {
+            Header(title: "Line Status") {
+                if let timeUpdated = viewModel.timeUpdated {
+                    Text("updated \(timeUpdated)")
+                        .font(.subheadline)
                 }
-                switch viewModel.statuses {
-                case .idle, .loading, .error:
-                    ProgressView()
-                        .tint(.textPrimary)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                case .loaded(let statuses):
-                    ScrollView {
-                        VStack {
-                            if !statuses.disruptions.isEmpty {
-                                StatusGroupView(
-                                    groupName: "DISRUPTIONS",
-                                    lines: statuses
-                                        .disruptions
-                                )
-                            }
-                            if !statuses.goodService.isEmpty {
-                                StatusGroupView(
-                                    groupName: "GOOD SERVICE",
-                                    lines: statuses
-                                        .goodService
-                                )
-                            }
+            }
+            switch viewModel.statuses {
+            case .idle, .loading, .error:
+                ProgressView()
+                    .tint(.textPrimary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            case .loaded(let statuses):
+                ScrollView {
+                    VStack {
+                        if !statuses.disruptions.isEmpty {
+                            StatusGroupView(
+                                groupName: "DISRUPTIONS",
+                                lines: statuses
+                                    .disruptions
+                            )
                         }
-                        Color.clear.frame(height: Spacing.xs)
+                        if !statuses.goodService.isEmpty {
+                            StatusGroupView(
+                                groupName: "GOOD SERVICE",
+                                lines: statuses
+                                    .goodService
+                            )
+                        }
                     }
-                    .scrollIndicators(.hidden)
+                    Color.clear.frame(height: Spacing.xs)
                 }
-            }
-
-            .task {
-                viewModel.startPolling()
-            }
-            .onDisappear {
-                viewModel.stopPolling()
-            }
-            .navigationDestination(for: Page.self) { page in
-                coordinator.build(page: page)
+                .scrollIndicators(.hidden)
             }
         }
-        .background(Color.theme.background)
+        .task {
+            viewModel.startPolling()
+        }
+        .onDisappear {
+            viewModel.stopPolling()
+        }
     }
 }
 

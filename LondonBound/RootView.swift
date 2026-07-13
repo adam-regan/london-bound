@@ -24,28 +24,62 @@ struct RootView: View {
         _savedViewModel = StateObject(wrappedValue: SavedViewModel(repository: dependencies.savedStationsRepository))
     }
 
-    var body: some View {
-        VStack(spacing: 0) {
-            VStack {
-                switch selectedTab {
-                    case .status:
-                        StatusView()
-                            .environmentObject(statusViewModel)
-                            .environmentObject(statusCoordinator)
-                    case .arrivals:
-                        ArrivalsView(viewModel: arrivalsViewModel)
-                    case .nearby:
-                        NearbyView(viewModel: nearbyViewModel, coordinator: nearbyCoordinator)
-                    case .saved:
-                        SavedView(viewModel: savedViewModel)
-                }
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
 
-            CustomTabBarView(selectedTab: $selectedTab)
+    var body: some View {
+        Group {
+            if horizontalSizeClass == .regular {
+                iPadLayout
+            } else {
+                iPhoneLayout
+            }
         }
         .background(Color.theme.background)
         .ignoresSafeArea(.keyboard)
+    }
+
+    private var iPhoneLayout: some View {
+        VStack(spacing: 0) {
+            destination(for: selectedTab)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            CustomTabBarView(selectedTab: $selectedTab)
+        }
+    }
+
+    private var iPadLayout: some View {
+        HStack(spacing: 0) {
+            CustomSideBarView(selectedTab: $selectedTab)
+
+            destination(for: selectedTab)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+
+    @ViewBuilder
+    private func destination(for tab: Tab) -> some View {
+        switch tab {
+        case .status:
+            NavigationStack(path: $statusCoordinator.path) {
+                StatusView()
+                    .environmentObject(statusViewModel)
+                    .environmentObject(statusCoordinator)
+                    .navigationDestination(for: Page.self) { page in
+                        statusCoordinator.build(page: page)
+                    }
+            }
+        case .arrivals:
+            ArrivalsView(viewModel: arrivalsViewModel)
+        case .nearby:
+            NavigationStack(path: $nearbyCoordinator.path) {
+                NearbyView(viewModel: nearbyViewModel, coordinator: nearbyCoordinator)
+                    .navigationDestination(for: Page.self) { page in
+                        nearbyCoordinator.build(page: page)
+                    }
+            }
+        case .saved:
+            SavedView(viewModel: savedViewModel)
+        }
     }
 }
 
