@@ -83,3 +83,13 @@ struct StatusView: View {
         ))
         .environmentObject(MainCoordinator())
 }
+
+#Preview("Error") {
+    StatusView()
+        .environmentObject(
+            StatusViewModel(
+                tflAPIService: TFLAPIServiceStub(error: .decodingError)
+            )
+        )
+        .environmentObject(MainCoordinator())
+}
