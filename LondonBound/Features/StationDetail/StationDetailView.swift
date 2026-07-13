@@ -1,5 +1,5 @@
 //
-//  NearbyDetailView.swift
+//  StationDetailView.swift
 //  LondonBound
 //
 //  Created by Adam Regan on 09/07/2026.
@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct NearbyDetailView: View {
-    let station: NearbyStation
-    @StateObject private var viewModel: NearbyDetailViewModel
+struct StationDetailView: View {
+    let station: StationDetail
+    @StateObject private var viewModel: StationDetailViewModel
 
-    init(station: NearbyStation, dependencies: AppDependencies) {
+    init(station: StationDetail, dependencies: AppDependencies) {
         self.station = station
-        _viewModel = StateObject(wrappedValue: NearbyDetailViewModel(
+        _viewModel = StateObject(wrappedValue: StationDetailViewModel(
             station: station,
             tflAPIService: dependencies.tflAPIService,
             savedStationsRepository: dependencies.savedStationsRepository
@@ -39,16 +39,12 @@ struct NearbyDetailView: View {
 }
 
 #Preview {
-    NearbyDetailView(
-        station: NearbyStation(
-            naptanId: "940GZZLUOXC",
-            stationNaptan: "940GZZLUOXC",
-            commonName: "Oxford Circus Underground Station",
-            distance: 250,
+    StationDetailView(
+        station: StationDetail(
+            id: "940GZZLUOXC",
+            name: "Oxford Circus",
             lat: 51.515,
-            lon: -0.1415,
-            modes: ["tube"],
-            lines: []
+            lon: -0.1415
         ),
         dependencies: .preview
     )

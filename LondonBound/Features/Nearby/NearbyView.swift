@@ -34,7 +34,7 @@ struct NearbyView: View {
                                 Image(systemName: "chevron.right")
                             }
                             .onTapGesture {
-                                coordinator.push(.nearbyDetails(stop))
+                                coordinator.push(.stationDetail(stop.detail))
                             }
                             if index < nearby.count - 1 {
                                 Divider()

@@ -16,16 +16,6 @@ struct SavedStation: Sendable, Identifiable, Hashable {
 }
 
 extension SavedStation {
-    init(_ station: NearbyStation, savedAt: Date = .now) {
-        self.init(
-            id: station.id,
-            name: station.name,
-            lat: station.lat,
-            lon: station.lon,
-            savedAt: savedAt
-        )
-    }
-
     init(_ station: Station, savedAt: Date = .now) {
         self.init(
             id: station.id,

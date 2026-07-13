@@ -35,9 +35,9 @@ class MainCoordinator: ObservableObject {
         switch page {
         case .lineDetail(let line):
             LineDetailView(line: line)
-        case .nearbyDetails(let nearby):
+        case .stationDetail(let station):
             if let dependencies {
-                NearbyDetailView(station: nearby, dependencies: dependencies)
+                StationDetailView(station: station, dependencies: dependencies)
             }
         }
     }

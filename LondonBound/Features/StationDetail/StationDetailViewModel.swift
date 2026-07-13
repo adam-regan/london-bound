@@ -1,5 +1,5 @@
 //
-//  NearbyDetailViewModel.swift
+//  StationDetailViewModel.swift
 //  LondonBound
 //
 //  Created by Adam Regan on 09/07/2026.
@@ -9,15 +9,15 @@ import Foundation
 internal import Combine
 
 @MainActor
-final class NearbyDetailViewModel: ObservableObject {
+final class StationDetailViewModel: ObservableObject {
     @Published private(set) var arrivals: Loadable<[Arrival]> = .idle
     @Published private(set) var isSaved = false
 
-    private let station: NearbyStation
+    private let station: StationDetail
     private let apiService: TFLAPIServiceProtocol
     private let savedStations: SavedStationsRepositoryProtocol
 
-    init(station: NearbyStation, tflAPIService: TFLAPIServiceProtocol, savedStationsRepository: SavedStationsRepositoryProtocol) {
+    init(station: StationDetail, tflAPIService: TFLAPIServiceProtocol, savedStationsRepository: SavedStationsRepositoryProtocol) {
         self.station = station
         apiService = tflAPIService
         savedStations = savedStationsRepository
