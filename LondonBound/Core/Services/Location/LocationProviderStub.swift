@@ -10,8 +10,12 @@ import CoreLocation
 #if DEBUG
 struct LocationProviderStub: LocationProviderProtocol {
     let error: CLError? = nil
+    var suspended = false
 
     func currentLocation() async throws -> Coordinate {
+        if suspended {
+            try await Task.sleep(for: .seconds(1_000_000))
+        }
         if let error = error {
             throw error
         }

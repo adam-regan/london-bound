@@ -19,7 +19,7 @@ struct NearbyView: View {
             case .idle:
                 EmptyView()
             case .loading:
-                ProgressView()
+                SkeletonList(rowCount: 8, showsLeadingCircle: false)
             case .error(let error):
                 Text(error.localizedDescription)
             case .loaded(let nearby):
@@ -59,6 +59,16 @@ struct NearbyView: View {
         viewModel: NearbyViewModel(
             tflAPIService: TFLAPIServiceStub(),
             locationProvider: LocationProviderStub()
+        ),
+        coordinator: MainCoordinator()
+    )
+}
+
+#Preview("Loading") {
+    NearbyView(
+        viewModel: NearbyViewModel(
+            tflAPIService: TFLAPIServiceStub(),
+            locationProvider: LocationProviderStub(suspended: true)
         ),
         coordinator: MainCoordinator()
     )

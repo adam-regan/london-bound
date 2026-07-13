@@ -26,7 +26,7 @@ struct ArrivalsList<Trailing: View>: View {
             case .idle, .error:
                 EmptyView()
             case .loading:
-                ProgressView()
+                SkeletonList(rowCount: 6)
             case .loaded(let arrivalsList):
                 ScrollView {
                     CustomList {

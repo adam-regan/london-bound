@@ -21,9 +21,17 @@ struct StatusView: View {
             }
             switch viewModel.statuses {
             case .idle, .loading, .error:
-                ProgressView()
-                    .tint(.textPrimary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                ScrollView {
+                    VStack(alignment: .leading) {
+                        RoundedRectangle(cornerRadius: CornerRadius.sm)
+                            .fill(Color.theme.textSecondary.opacity(0.25))
+                            .frame(width: 140, height: 16)
+                            .shimmer()
+                        SkeletonList(rowCount: 8)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .scrollIndicators(.hidden)
             case .loaded(let statuses):
                 ScrollView {
                     VStack {
@@ -60,6 +68,14 @@ struct StatusView: View {
     StatusView()
         .environmentObject(StatusViewModel(
             tflAPIService: TFLAPIServiceStub()
+        ))
+        .environmentObject(MainCoordinator())
+}
+
+#Preview("Loading") {
+    StatusView()
+        .environmentObject(StatusViewModel(
+            tflAPIService: TFLAPIServiceStub(suspended: true)
         ))
         .environmentObject(MainCoordinator())
 }

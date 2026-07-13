@@ -49,6 +49,7 @@ final class ArrivalsViewModel: ObservableObject {
     func selectStation(_ station: Station) {
         searchQuery = ""
         searchResults = .idle
+        arrivals = .idle
         selectedStation = station
         poller.start()
     }
