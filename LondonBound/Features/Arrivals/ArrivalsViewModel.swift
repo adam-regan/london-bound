@@ -58,6 +58,11 @@ final class ArrivalsViewModel: ObservableObject {
         poller.start()
     }
 
+    func retryArrivals() {
+        arrivals = .idle
+        poller.start()
+    }
+
     func stopPolling() {
         poller.stop()
     }

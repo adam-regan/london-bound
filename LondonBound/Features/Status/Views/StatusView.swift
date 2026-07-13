@@ -20,7 +20,7 @@ struct StatusView: View {
                 }
             }
             switch viewModel.statuses {
-            case .idle, .loading, .error:
+            case .idle, .loading:
                 ScrollView {
                     VStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: CornerRadius.sm)
@@ -32,6 +32,10 @@ struct StatusView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 }
                 .scrollIndicators(.hidden)
+            case .error:
+                ErrorStateView(message: "Couldn't load line status.") {
+                    viewModel.retry()
+                }
             case .loaded(let statuses):
                 ScrollView {
                     VStack {

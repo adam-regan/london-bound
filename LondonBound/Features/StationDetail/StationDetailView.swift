@@ -22,7 +22,9 @@ struct StationDetailView: View {
 
     var body: some View {
         PageContent(navigationTitle: station.name) {
-            ArrivalsList(arrivals: viewModel.arrivals)
+            ArrivalsList(arrivals: viewModel.arrivals) {
+                viewModel.fetchArrivals()
+            }
         } trailing: {
             Button {
                 viewModel.toggleSaved()

@@ -28,6 +28,11 @@ final class StatusViewModel: ObservableObject {
         poller.stop()
     }
 
+    func retry() {
+        statuses = .loading
+        startPolling()
+    }
+
     func getWorstLineStatus(line: Line) -> LineStatus? {
         return line.lineStatuses
             .first {

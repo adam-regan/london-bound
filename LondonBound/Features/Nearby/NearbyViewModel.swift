@@ -20,7 +20,9 @@ final class NearbyViewModel: ObservableObject {
     }
 
     func fetchNearby() {
-        nearby = .loading
+        if nearby == .idle {
+            nearby = .loading
+        }
         Task {
             do {
                 let coords = try await locationProvider.currentLocation()

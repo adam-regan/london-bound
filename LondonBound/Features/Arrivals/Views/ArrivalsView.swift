@@ -24,7 +24,8 @@ struct ArrivalsView: View {
             if let selectedStation = viewModel.selectedStation {
                 ArrivalsList(
                     stationName: selectedStation.name,
-                    arrivals: viewModel.arrivals
+                    arrivals: viewModel.arrivals,
+                    onRetry: { viewModel.retryArrivals() }
                 ) {
                     Button {
                         viewModel.toggleSaved()

@@ -10,6 +10,7 @@ import SwiftUI
 struct ArrivalsList<Trailing: View>: View {
     var stationName: String?
     var arrivals: Loadable<[Arrival]>
+    var onRetry: () -> Void
     @ViewBuilder var trailing: Trailing
 
     var body: some View {
@@ -23,8 +24,10 @@ struct ArrivalsList<Trailing: View>: View {
                 }
             }
             switch arrivals {
-            case .idle, .error:
+            case .idle:
                 EmptyView()
+            case .error:
+                ErrorStateView(message: "Couldn't load arrivals.", action: onRetry)
             case .loading:
                 SkeletonList(rowCount: 6)
             case .loaded(let arrivalsList):
@@ -59,11 +62,11 @@ struct ArrivalsList<Trailing: View>: View {
 }
 
 extension ArrivalsList where Trailing == EmptyView {
-    init(stationName: String? = nil, arrivals: Loadable<[Arrival]>) {
-        self.init(stationName: stationName, arrivals: arrivals, trailing: { EmptyView() })
+    init(stationName: String? = nil, arrivals: Loadable<[Arrival]>, onRetry: @escaping () -> Void) {
+        self.init(stationName: stationName, arrivals: arrivals, onRetry: onRetry, trailing: { EmptyView() })
     }
 }
 
 #Preview {
-    ArrivalsList(stationName: "Euston Station", arrivals: .idle)
+    ArrivalsList(stationName: "Euston Station", arrivals: .idle) {}
 }

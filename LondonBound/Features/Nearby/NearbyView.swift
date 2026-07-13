@@ -56,29 +56,20 @@ struct NearbyView: View {
 
     @ViewBuilder
     private func errorView(for error: Error) -> some View {
-        VStack(spacing: Spacing.md) {
-            if isLocationDenied(error) {
-                Text("Location access is turned off.\nEnable it in Settings to see nearby stations.")
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.theme.textSecondary)
-                Button("Open Settings") {
-                    if let url = URL(string: UIApplication.openSettingsURLString) {
-                        openURL(url)
-                    }
+        if isLocationDenied(error) {
+            ErrorStateView(
+                message: "Location access is turned off.\nEnable it in Settings to see nearby stations.",
+                actionTitle: "Open Settings"
+            ) {
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    openURL(url)
                 }
-                .foregroundColor(Color.theme.primary)
-            } else {
-                Text("Couldn't load nearby stations.")
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.theme.textSecondary)
-                Button("Try Again") {
-                    viewModel.fetchNearby()
-                }
-                .foregroundColor(Color.theme.primary)
+            }
+        } else {
+            ErrorStateView(message: "Couldn't load nearby stations.") {
+                viewModel.fetchNearby()
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .padding(.horizontal, Spacing.lg)
     }
 
     private func isLocationDenied(_ error: Error) -> Bool {
