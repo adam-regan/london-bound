@@ -32,6 +32,7 @@ struct PageContent<Content: View, Trailing: View>: View {
                     .font(.title)
             }
             .foregroundStyle(Color.theme.textPrimary)
+            .padding(.bottom, Spacing.xs)
             content
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

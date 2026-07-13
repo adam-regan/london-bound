@@ -14,7 +14,7 @@ struct ArrivalsList<Trailing: View>: View {
     @ViewBuilder var trailing: Trailing
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading) {
             if let stationName = stationName {
                 HStack {
                     Text(stationName)
@@ -56,7 +56,6 @@ struct ArrivalsList<Trailing: View>: View {
                 }
             }
         }
-        .padding(.top, 8)
         .frame(maxWidth: .infinity, alignment: .leading)
     }
 }

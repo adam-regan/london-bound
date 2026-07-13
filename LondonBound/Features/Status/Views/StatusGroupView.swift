@@ -13,7 +13,7 @@ struct StatusGroupView: View {
     var groupName: String
     var lines: [Line]
     var body: some View {
-        VStack {
+        VStack(spacing: Spacing.sm) {
             HStack {
                 Text(groupName)
                     .font(.headline)

@@ -22,8 +22,17 @@ struct StationDetailView: View {
 
     var body: some View {
         PageContent(navigationTitle: station.name) {
-            ArrivalsList(arrivals: viewModel.arrivals) {
-                viewModel.fetchArrivals()
+            VStack(spacing: Spacing.sm) {
+                HStack {
+                    Text("ARRIVALS")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundColor(Color.theme.textSecondary)
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                ArrivalsList(arrivals: viewModel.arrivals) {
+                    viewModel.fetchArrivals()
+                }
             }
         } trailing: {
             Button {

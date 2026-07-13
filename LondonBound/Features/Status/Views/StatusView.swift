@@ -38,7 +38,7 @@ struct StatusView: View {
                 }
             case .loaded(let statuses):
                 ScrollView {
-                    VStack {
+                    VStack(spacing: Spacing.sm) {
                         if !statuses.disruptions.isEmpty {
                             StatusGroupView(
                                 groupName: "DISRUPTIONS",
