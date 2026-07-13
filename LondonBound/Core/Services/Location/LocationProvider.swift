@@ -39,7 +39,7 @@ final class LocationProvider: NSObject, CLLocationManagerDelegate, LocationProvi
         case .authorizedWhenInUse, .authorizedAlways:
             manager.requestLocation()
         case .denied, .restricted:
-            resume(with: .failure(CLError(.denied)))
+            resume(with: .failure(LocationError.permissionDenied))
         default:
             break
         }

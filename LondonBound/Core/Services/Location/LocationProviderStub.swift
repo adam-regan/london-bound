@@ -5,11 +5,9 @@
 //  Created by Adam Regan on 08/07/2026.
 //
 
-import CoreLocation
-
 #if DEBUG
 struct LocationProviderStub: LocationProviderProtocol {
-    let error: CLError? = nil
+    let error: LocationError? = nil
     var suspended = false
 
     func currentLocation() async throws -> Coordinate {
