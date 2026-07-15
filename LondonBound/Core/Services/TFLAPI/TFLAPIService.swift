@@ -72,7 +72,7 @@ final class TFLAPIService: TFLAPIServiceProtocol {
         do {
             return try decoder.decode(T.self, from: data)
         } catch {
-            throw error
+            throw TFLError.decodingError
         }
     }
 

@@ -27,10 +27,16 @@ final class ArrivalsViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let apiService: TFLAPIServiceProtocol
     private let savedStations: SavedStationsRepositoryProtocol
+    private let searchDebounce: RunLoop.SchedulerTimeType.Stride
 
-    init(tflAPIService: TFLAPIServiceProtocol, savedStationsRepository: SavedStationsRepositoryProtocol) {
+    init(
+        tflAPIService: TFLAPIServiceProtocol,
+        savedStationsRepository: SavedStationsRepositoryProtocol,
+        searchDebounce: RunLoop.SchedulerTimeType.Stride = .milliseconds(300)
+    ) {
         apiService = tflAPIService
         savedStations = savedStationsRepository
+        self.searchDebounce = searchDebounce
         observeSearchText()
         observeSavedState()
     }
@@ -102,7 +108,7 @@ final class ArrivalsViewModel: ObservableObject {
 
     private func observeSearchText() {
         $searchQuery
-            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
+            .debounce(for: searchDebounce, scheduler: RunLoop.main)
             .removeDuplicates()
             .sink { [weak self] query in
                 if query.count > 2 {
