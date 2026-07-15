@@ -16,8 +16,10 @@ struct RootView: View {
     @StateObject private var arrivalsViewModel: ArrivalsViewModel
     @StateObject private var nearbyViewModel: NearbyViewModel
     @StateObject private var savedViewModel: SavedViewModel
+    private let dependencies: AppDependencies
 
     init(dependencies: AppDependencies) {
+        self.dependencies = dependencies
         _nearbyCoordinator = StateObject(wrappedValue: MainCoordinator(dependencies: dependencies))
         _savedCoordinator = StateObject(wrappedValue: MainCoordinator(dependencies: dependencies))
         _statusViewModel = StateObject(wrappedValue: StatusViewModel(tflAPIService: dependencies.tflAPIService))
@@ -81,7 +83,7 @@ struct RootView: View {
             }
         case .saved:
             NavigationStack(path: $savedCoordinator.path) {
-                SavedView(viewModel: savedViewModel, coordinator: savedCoordinator)
+                SavedView(viewModel: savedViewModel, coordinator: savedCoordinator, dependencies: dependencies)
                     .navigationDestination(for: Page.self) { page in
                         savedCoordinator.build(page: page)
                     }

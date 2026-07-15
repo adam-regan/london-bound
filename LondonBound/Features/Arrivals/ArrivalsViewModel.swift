@@ -54,6 +54,11 @@ final class ArrivalsViewModel: ObservableObject {
         poller.start()
     }
 
+    func clearSearch() {
+        searchQuery = ""
+        searchResults = .idle
+    }
+
     func startPolling() {
         poller.start()
     }

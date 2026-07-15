@@ -10,11 +10,19 @@ import SwiftUI
 struct SavedView: View {
     @ObservedObject var viewModel: SavedViewModel
     @ObservedObject var coordinator: MainCoordinator
+    let dependencies: AppDependencies
     @State private var stationToDelete: SavedStation?
+    @State private var showingAdd = false 
 
     var body: some View {
         TabContent {
-            Header(title: "Saved")
+            Header(title: "Saved") {
+                Button { showingAdd = true } label: {
+                    Image(systemName: "plus")
+                        .imageScale(.large)
+                }
+                .foregroundStyle(Color.theme.textPrimary)
+            }
 
             if viewModel.stations.isEmpty {
                 Spacer()
@@ -67,17 +75,20 @@ struct SavedView: View {
         } message: { station in
             Text("Remove \(station.name) from saved stations?")
         }
+        .sheet(isPresented: $showingAdd) {
+            SavedAddSheet(dependencies: dependencies)
+        }
     }
 }
 
 #Preview {
-    SavedView(
-        viewModel: SavedViewModel(
-            repository: SavedStationsRepositoryStub(stations: [
-                SavedStation(id: "1", name: "Oxford Circus", lat: 51.515, lon: -0.1415, savedAt: .now),
-                SavedStation(id: "2", name: "Victoria", lat: 51.496, lon: -0.1437, savedAt: .now)
-            ])
-        ),
-        coordinator: MainCoordinator()
+    let repository = SavedStationsRepositoryStub(stations: [
+        SavedStation(id: "1", name: "Oxford Circus", lat: 51.515, lon: -0.1415, savedAt: .now),
+        SavedStation(id: "2", name: "Victoria", lat: 51.496, lon: -0.1437, savedAt: .now)
+    ])
+    return SavedView(
+        viewModel: SavedViewModel(repository: repository),
+        coordinator: MainCoordinator(),
+        dependencies: .preview
     )
 }
