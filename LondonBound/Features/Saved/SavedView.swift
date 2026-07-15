@@ -22,6 +22,7 @@ struct SavedView: View {
                         .imageScale(.large)
                 }
                 .foregroundStyle(Color.theme.textPrimary)
+                .accessibilityLabel("Add saved station")
             }
 
             if viewModel.stations.isEmpty {
@@ -45,10 +46,20 @@ struct SavedView: View {
                                 Text(station.name)
                                 Spacer()
                                 Image(systemName: "chevron.right")
+                                    .accessibilityHidden(true)
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
                                 coordinator.push(.stationDetail(station.detail))
+                            }
+                            .accessibilityElement(children: .ignore)
+                            .accessibilityLabel(station.name)
+                            .accessibilityAddTraits(.isButton)
+                            .accessibilityAction {
+                                coordinator.push(.stationDetail(station.detail))
+                            }
+                            .accessibilityAction(named: "Remove") {
+                                stationToDelete = station
                             }
                             if index < viewModel.stations.count - 1 {
                                 Divider()

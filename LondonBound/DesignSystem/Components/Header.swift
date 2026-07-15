@@ -16,6 +16,7 @@ struct Header<Trailing: View>: View {
             Text(title)
                 .font(.title)
                 .fontWeight(.bold)
+                .accessibilityAddTraits(.isHeader)
             Spacer()
             trailing
         }

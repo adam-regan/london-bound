@@ -19,6 +19,7 @@ struct StatusGroupView: View {
                     .font(.headline)
                     .fontWeight(.bold)
                     .foregroundColor(Color.theme.textSecondary)
+                    .accessibilityAddTraits(.isHeader)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             CustomList {

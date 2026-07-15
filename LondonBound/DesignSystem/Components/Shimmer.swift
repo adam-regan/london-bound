@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Shimmer: ViewModifier {
     @State private var phase: CGFloat = 0
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
     func body(content: Content) -> some View {
         content
@@ -25,6 +26,7 @@ struct Shimmer: ViewModifier {
             )
             .clipped()
             .onAppear {
+                guard !reduceMotion else { return }
                 withAnimation(.easeInOut(duration: 1.2).repeatForever(autoreverses: false)) {
                     phase = 1
                 }

@@ -28,6 +28,7 @@ struct StationDetailView: View {
                         .font(.headline)
                         .fontWeight(.bold)
                         .foregroundColor(Color.theme.textSecondary)
+                        .accessibilityAddTraits(.isHeader)
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 ArrivalsList(arrivals: viewModel.arrivals) {
@@ -42,6 +43,8 @@ struct StationDetailView: View {
                     .imageScale(.large)
             }
             .foregroundStyle(Color.theme.textPrimary)
+            .accessibilityLabel("Save station")
+            .accessibilityAddTraits(viewModel.isSaved ? .isSelected : [])
         }
         .task {
             viewModel.fetchArrivals()

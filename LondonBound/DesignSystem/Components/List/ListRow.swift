@@ -16,7 +16,7 @@ struct ListRow<Content: View>: View {
         }
         .foregroundColor(Color.theme.textPrimary)
         .frame(maxWidth: .infinity)
-        .frame(height: 50)
+        .frame(minHeight: 50)
         .padding(.horizontal, Spacing.sm)
         .background(Color.theme.surface)
     }

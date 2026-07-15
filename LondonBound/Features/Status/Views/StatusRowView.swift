@@ -24,6 +24,14 @@ struct StatusRowView: View {
                 .opacity(line.overallCondition == .good ? 0 : 1)
                 .padding(.horizontal, Spacing.xxs)
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityLabel)
+    }
+
+    private var accessibilityLabel: String {
+        let status = viewModel.getWorstLineStatus(line: line)?
+            .statusSeverityDescription ?? "Good Service"
+        return "\(line.name) line, \(status)"
     }
 
     @ViewBuilder

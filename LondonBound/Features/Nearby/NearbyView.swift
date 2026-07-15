@@ -27,16 +27,19 @@ struct NearbyView: View {
                 ScrollView {
                     CustomList {
                         ForEach(Array(nearby.enumerated()), id: \.element.id) { index, stop in
-                            ListRow {
-                                Text(stop.name)
-                                Spacer()
-                                Text(stop.formattedDistance)
-                                    .font(.subheadline)
-                                Image(systemName: "chevron.right")
-                            }
-                            .onTapGesture {
+                            Button {
                                 coordinator.push(.stationDetail(stop.detail))
+                            } label: {
+                                ListRow {
+                                    Text(stop.name)
+                                    Spacer()
+                                    Text(stop.formattedDistance)
+                                        .font(.subheadline)
+                                    Image(systemName: "chevron.right")
+                                        .accessibilityHidden(true)
+                                }
                             }
+                            .buttonStyle(.plain)
                             if index < nearby.count - 1 {
                                 Divider()
                                     .background(

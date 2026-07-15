@@ -62,22 +62,24 @@ struct StationSearchField: View {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0) {
                         ForEach(stations) { station in
-                            HStack {
-                                Text(station.name)
-                                Spacer()
-                                if savedIDs.contains(station.id) {
-                                    Image(systemName: "checkmark")
-                                        .foregroundStyle(.textSecondary)
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .frame(height: rowHeight)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
+                            Button {
                                 guard !savedIDs.contains(station.id) else { return }
                                 onSelect(station)
                                 focused = false
+                            } label: {
+                                HStack {
+                                    Text(station.name)
+                                    Spacer()
+                                    if savedIDs.contains(station.id) {
+                                        Image(systemName: "checkmark")
+                                            .foregroundStyle(.textSecondary)
+                                    }
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .frame(height: rowHeight)
+                                .contentShape(Rectangle())
                             }
+                            .buttonStyle(.plain)
                             if station != stations.last {
                                 Divider()
                                     .overlay(.textSecondary)

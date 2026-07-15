@@ -19,6 +19,7 @@ struct ArrivalsList<Trailing: View>: View {
                 HStack {
                     Text(stationName)
                         .font(.title3.bold())
+                        .accessibilityAddTraits(.isHeader)
                     Spacer()
                     trailing
                 }
@@ -44,6 +45,8 @@ struct ArrivalsList<Trailing: View>: View {
                                         .font(.footnote)
                                 }
                             }
+                            .accessibilityElement(children: .ignore)
+                            .accessibilityLabel(accessibilityLabel(for: arrival))
                             if arrival != arrivalsList.last {
                                 Divider()
                                     .background(
@@ -57,6 +60,14 @@ struct ArrivalsList<Trailing: View>: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func accessibilityLabel(for arrival: Arrival) -> String {
+        let minutes = arrival.timeToStationInMinutes
+        let time = minutes == "<1"
+            ? "due now"
+            : "\(minutes) minute\(minutes == "1" ? "" : "s")"
+        return "\(arrival.destinationName), \(arrival.lineName) line, \(time)"
     }
 }
 

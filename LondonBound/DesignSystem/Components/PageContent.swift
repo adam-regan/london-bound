@@ -30,6 +30,7 @@ struct PageContent<Content: View, Trailing: View>: View {
                 .frame(maxWidth: .infinity)
                 Text(navigationTitle)
                     .font(.title)
+                    .accessibilityAddTraits(.isHeader)
             }
             .foregroundStyle(Color.theme.textPrimary)
             .padding(.bottom, Spacing.xs)
