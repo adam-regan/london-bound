@@ -20,8 +20,9 @@ final class LocationProvider: NSObject, CLLocationManagerDelegate, LocationProvi
 
     func currentLocation() async throws -> Coordinate {
         try await withCheckedThrowingContinuation { continuation in
+            self.continuation?.resume(throwing: LocationError.cancelled)
             self.continuation = continuation
-            
+
             if manager.authorizationStatus == .notDetermined {
                 manager.requestWhenInUseAuthorization()
             } else {
@@ -46,7 +47,10 @@ final class LocationProvider: NSObject, CLLocationManagerDelegate, LocationProvi
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let coord = locations.first?.coordinate else { return }
+        guard let coord = locations.first?.coordinate else {
+            resume(with: .failure(LocationError.locationUnavailable))
+            return
+        }
         resume(
             with:
             .success(

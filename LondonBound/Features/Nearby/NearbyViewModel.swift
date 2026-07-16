@@ -28,6 +28,8 @@ final class NearbyViewModel: ObservableObject {
                 let coords = try await locationProvider.currentLocation()
                 let stations = try await apiService.fetchNearby(coords: coords)
                 nearby = .loaded(stations)
+            } catch LocationError.cancelled {
+                // Ignore as replaced by newer fetch
             } catch {
                 nearby = .error(error)
             }

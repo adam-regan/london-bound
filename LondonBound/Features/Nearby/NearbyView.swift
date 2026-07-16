@@ -23,6 +23,12 @@ struct NearbyView: View {
                 SkeletonList(rowCount: 8, showsLeadingCircle: false)
             case .error(let error):
                 errorView(for: error)
+            case .loaded(let nearby) where nearby.isEmpty:
+                Text("No stations found nearby.")
+                    .foregroundColor(.theme.textSecondary)
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+                    .padding(.horizontal, Spacing.lg)
             case .loaded(let nearby):
                 ScrollView {
                     CustomList {
