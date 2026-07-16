@@ -16,7 +16,8 @@ struct StationDetailView: View {
         _viewModel = StateObject(wrappedValue: StationDetailViewModel(
             station: station,
             tflAPIService: dependencies.tflAPIService,
-            savedStationsRepository: dependencies.savedStationsRepository
+            savedStationsRepository: dependencies.savedStationsRepository,
+            arrivalsCache: dependencies.arrivalsCache
         ))
     }
 

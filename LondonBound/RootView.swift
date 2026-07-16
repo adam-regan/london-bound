@@ -23,7 +23,7 @@ struct RootView: View {
         _nearbyCoordinator = StateObject(wrappedValue: MainCoordinator(dependencies: dependencies))
         _savedCoordinator = StateObject(wrappedValue: MainCoordinator(dependencies: dependencies))
         _statusViewModel = StateObject(wrappedValue: StatusViewModel(tflAPIService: dependencies.tflAPIService))
-        _arrivalsViewModel = StateObject(wrappedValue: ArrivalsViewModel(tflAPIService: dependencies.tflAPIService, savedStationsRepository: dependencies.savedStationsRepository))
+        _arrivalsViewModel = StateObject(wrappedValue: ArrivalsViewModel(tflAPIService: dependencies.tflAPIService, savedStationsRepository: dependencies.savedStationsRepository, arrivalsCache: dependencies.arrivalsCache))
         _nearbyViewModel = StateObject(wrappedValue: NearbyViewModel(tflAPIService: dependencies.tflAPIService, locationProvider: dependencies.locationProvider))
         _savedViewModel = StateObject(wrappedValue: SavedViewModel(repository: dependencies.savedStationsRepository))
     }

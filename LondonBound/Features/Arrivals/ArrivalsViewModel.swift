@@ -27,15 +27,18 @@ final class ArrivalsViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     private let apiService: TFLAPIServiceProtocol
     private let savedStations: SavedStationsRepositoryProtocol
+    private let arrivalsCache: ArrivalsCache
     private let searchDebounce: RunLoop.SchedulerTimeType.Stride
 
     init(
         tflAPIService: TFLAPIServiceProtocol,
         savedStationsRepository: SavedStationsRepositoryProtocol,
+        arrivalsCache: ArrivalsCache = ArrivalsCache(),
         searchDebounce: RunLoop.SchedulerTimeType.Stride = .milliseconds(300)
     ) {
         apiService = tflAPIService
         savedStations = savedStationsRepository
+        self.arrivalsCache = arrivalsCache
         self.searchDebounce = searchDebounce
         observeSearchText()
         observeSavedState()
@@ -55,7 +58,7 @@ final class ArrivalsViewModel: ObservableObject {
     func selectStation(_ station: Station) {
         searchQuery = ""
         searchResults = .idle
-        arrivals = .idle
+        arrivals = arrivalsCache.arrivals(for: station.id).map(Loadable.loaded) ?? .idle
         selectedStation = station
         poller.start()
     }
@@ -85,12 +88,15 @@ final class ArrivalsViewModel: ObservableObject {
 
         Task {
             do {
-                arrivals = try .loaded(await apiService.fetchArrivals(stationId: stationId))
+                let fresh = try await apiService.fetchArrivals(stationId: stationId)
+                arrivalsCache.store(fresh, for: stationId)
+                arrivals = .loaded(fresh)
                 let now = Date()
                 let formatter = DateFormatter()
                 formatter.dateFormat = "H:mm"
                 timeUpdated = formatter.string(from: now)
             } catch {
+                if case .loaded = arrivals { return }   // keep stale rows on error
                 arrivals = .error(error)
             }
         }

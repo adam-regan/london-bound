@@ -16,11 +16,18 @@ final class StationDetailViewModel: ObservableObject {
     private let station: StationDetail
     private let apiService: TFLAPIServiceProtocol
     private let savedStations: SavedStationsRepositoryProtocol
+    private let arrivalsCache: ArrivalsCache
 
-    init(station: StationDetail, tflAPIService: TFLAPIServiceProtocol, savedStationsRepository: SavedStationsRepositoryProtocol) {
+    init(
+        station: StationDetail,
+        tflAPIService: TFLAPIServiceProtocol,
+        savedStationsRepository: SavedStationsRepositoryProtocol,
+        arrivalsCache: ArrivalsCache = ArrivalsCache()
+    ) {
         self.station = station
         apiService = tflAPIService
         savedStations = savedStationsRepository
+        self.arrivalsCache = arrivalsCache
 
         savedStations.stations
             .receive(on: DispatchQueue.main)
@@ -29,11 +36,21 @@ final class StationDetailViewModel: ObservableObject {
     }
 
     func fetchArrivals() {
-        arrivals = .loading
+        if let cached = arrivalsCache.arrivals(for: station.id) {
+            arrivals = .loaded(cached)      // show last-known rows immediately
+        } else if case .loaded = arrivals {
+            // already populated; refresh silently
+        } else {
+            arrivals = .loading
+        }
+
         Task {
             do {
-                arrivals = try .loaded(await apiService.fetchArrivals(stationId: station.id))
+                let fresh = try await apiService.fetchArrivals(stationId: station.id)
+                arrivalsCache.store(fresh, for: station.id)
+                arrivals = .loaded(fresh)
             } catch {
+                if case .loaded = arrivals { return }   // keep stale rows on error
                 arrivals = .error(error)
             }
         }
