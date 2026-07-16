@@ -1,0 +1,4 @@
+// Copy this file to "Config.xcconfig" and paste your own TfL API key below.
+// Config.xcconfig is gitignored, so your key is never committed.
+// Get a free key at: https://api-portal.tfl.gov.uk/
+TFL_API_KEY =

@@ -242,8 +242,10 @@ Testing focuses on:
 # Running the Project
 
 1.  Clone the repository
-2.  Open the project in **Xcode**
-3.  Build and run on an **iOS simulator or device**
+2.  Copy `Config.xcconfig.example` to `Config.xcconfig` and paste in your own
+    free TfL API key from the [TfL API Portal](https://api-portal.tfl.gov.uk/)
+3.  Open the project in **Xcode**
+4.  Build and run on an **iOS simulator or device**
 
 The app talks to the live **TfL API**, so a network connection is required. Nearby station discovery requires **location permission**.
 

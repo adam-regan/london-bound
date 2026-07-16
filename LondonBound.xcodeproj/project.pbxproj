@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F3D489DD2FA4B6BA005A852D /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = F3D489DC2FA4B6BA005A852D /* Config.xcconfig */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		F37E1A0E300929C900505B58 /* Config.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Config.xcconfig.example; sourceTree = "<group>"; };
+		F37E1A0F300929C900505B58 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F3D489DC2FA4B6BA005A852D /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		F3D668B32FA241CA00D5FA9E /* LondonBound.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LondonBound.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F3D668C22FA241CC00D5FA9E /* LondonBoundTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LondonBoundTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +94,8 @@
 		F3D668AA2FA241CA00D5FA9E = {
 			isa = PBXGroup;
 			children = (
+				F37E1A0E300929C900505B58 /* Config.xcconfig.example */,
+				F37E1A0F300929C900505B58 /* README.md */,
 				F3D668B52FA241CA00D5FA9E /* LondonBound */,
 				F3D668C52FA241CC00D5FA9E /* LondonBoundTests */,
 				F3D668CF2FA241CC00D5FA9E /* LondonBoundUITests */,
@@ -231,7 +234,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F3D489DD2FA4B6BA005A852D /* Config.xcconfig in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
