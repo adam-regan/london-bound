@@ -13,8 +13,8 @@ struct LineDetailView: View {
     var body: some View {
         PageContent(navigationTitle: line.name) {
             VStack {
-                ForEach(line.lineStatuses) { status in
-                    DisruptionCardView(status: status)
+                ForEach(line.lineStatuses.indices, id: \.self) { index in
+                    DisruptionCardView(status: line.lineStatuses[index])
                 }
             }
         }
