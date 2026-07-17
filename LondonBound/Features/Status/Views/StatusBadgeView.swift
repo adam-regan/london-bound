@@ -34,3 +34,8 @@ struct StatusBadgeView: View {
 #Preview("Minor") {
     StatusBadgeView(status: GroupedStatuses.fixture.disruptions[0].lineStatuses[0])
 }
+
+#Preview("Severe") {
+    StatusBadgeView(status: GroupedStatuses.fixture.disruptions[1].lineStatuses[0])
+}
+
