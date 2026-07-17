@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Build & Test
+    runs-on: macos-26
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Create Config.xcconfig
+        # The real key is gitignored; tests run against stubs, so an empty key is fine.
+        run: cp Config.xcconfig.example Config.xcconfig
+
+      - name: Build & test
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project LondonBound.xcodeproj \
+            -scheme LondonBound \
+            -destination 'platform=iOS Simulator,name=iPhone 17,OS=latest' \
+            CODE_SIGNING_ALLOWED=NO \
+            | xcbeautify
