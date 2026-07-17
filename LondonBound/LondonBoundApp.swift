@@ -17,7 +17,7 @@ struct LondonBoundApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView(dependencies: dependencies)
+            RootContainerView(dependencies: dependencies)
         }
     }
 }
