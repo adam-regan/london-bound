@@ -28,7 +28,7 @@ final class TFLAPIService: TFLAPIServiceProtocol {
         var seen = Set<String>()
         return response.places.filter { station in
             station.modes.contains(where: { validModes.contains($0) })
-            && seen.insert(station.name).inserted
+            && seen.insert(station.id).inserted
         }
     }
 

@@ -115,13 +115,13 @@ struct TFLAPIServiceTests {
         }
     }
 
-    // MARK: - fetchNearby transform (filter invalid modes + dedupe by name)
+    // MARK: - fetchNearby transform (filter invalid modes + dedupe by id)
 
-    @Test func fetchNearby_filtersInvalidModesAndDedupesByName() async throws {
+    @Test func fetchNearby_filtersInvalidModesAndDedupesById() async throws {
         let json = """
         {"places": [
-            {"naptanId":"1","commonName":"Bank Underground Station","distance":100,"lat":51,"lon":0,"modes":["tube"],"lines":[]},
-            {"naptanId":"2","commonName":"Bank Underground Station","distance":200,"lat":51,"lon":0,"modes":["tube"],"lines":[]},
+            {"naptanId":"1","stationNaptan":"940GZZLUBNK","commonName":"Bank Underground Station","distance":100,"lat":51,"lon":0,"modes":["tube"],"lines":[]},
+            {"naptanId":"2","stationNaptan":"940GZZLUBNK","commonName":"Bank DLR Station","distance":200,"lat":51,"lon":0,"modes":["dlr"],"lines":[]},
             {"naptanId":"3","commonName":"Somewhere Bus Station","distance":300,"lat":51,"lon":0,"modes":["bus"],"lines":[]},
             {"naptanId":"4","commonName":"Waterloo Station","distance":400,"lat":51,"lon":0,"modes":["dlr"],"lines":[]}
         ]}
@@ -133,8 +133,8 @@ struct TFLAPIServiceTests {
         let service = makeService()
         let stations = try await service.fetchNearby(coords: Coordinate(lat: 51, lon: 0))
 
-        // "2" dropped (duplicate name "Bank"), "3" dropped (no valid mode).
-        #expect(stations.map(\.id) == ["1", "4"])
+        // "2" dropped (duplicate id — shares stationNaptan with "1"), "3" dropped (no valid mode).
+        #expect(stations.map(\.id) == ["940GZZLUBNK", "4"])
         #expect(stations.map(\.name) == ["Bank", "Waterloo"])
     }
 
