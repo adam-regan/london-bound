@@ -13,7 +13,7 @@ internal import Combine
 
 /// Configurable TFL API mock. Each method returns its corresponding `Result`,
 /// letting a test drive both success payloads and thrown errors.
-final class TFLAPIServiceMock: TFLAPIServiceProtocol, @unchecked Sendable {
+nonisolated final class TFLAPIServiceMock: TFLAPIServiceProtocol, @unchecked Sendable {
     var lineStatusResult: Result<[Line], Error> = .success([])
     var stationsResult: Result<StationSearchResponse, Error>
         = .success(StationSearchResponse(query: "", total: 0, matches: []))
@@ -26,7 +26,7 @@ final class TFLAPIServiceMock: TFLAPIServiceProtocol, @unchecked Sendable {
     func fetchNearby(coords: Coordinate) async throws -> [NearbyStation] { try nearbyResult.get() }
 }
 
-final class LocationProviderMock: LocationProviderProtocol, @unchecked Sendable {
+nonisolated final class LocationProviderMock: LocationProviderProtocol, @unchecked Sendable {
     var result: Result<Coordinate, Error> = .success(Coordinate(lat: 51.5, lon: -0.12))
 
     func currentLocation() async throws -> Coordinate { try result.get() }

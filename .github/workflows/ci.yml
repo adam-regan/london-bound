@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Create Config.xcconfig
         # The real key is gitignored; tests run against stubs, so an empty key is fine.

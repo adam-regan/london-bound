@@ -8,7 +8,7 @@
 #if DEBUG
 internal import Combine
 
-struct SavedStationsRepositoryStub: SavedStationsRepositoryProtocol {
+nonisolated struct SavedStationsRepositoryStub: SavedStationsRepositoryProtocol {
     private let subject: CurrentValueSubject<[SavedStation], Never>
 
     init(stations: [SavedStation] = []) {

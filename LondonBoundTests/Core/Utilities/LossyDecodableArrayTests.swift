@@ -6,7 +6,7 @@
 @testable import LondonBound
 import Testing
 
-private struct Item: Decodable, Equatable, Sendable {
+private nonisolated struct Item: Decodable, Equatable, Sendable {
     let n: Int
 }
 
