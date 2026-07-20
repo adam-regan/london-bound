@@ -18,13 +18,14 @@ struct SkeletonList: View {
                     if showsLeadingCircle {
                         Circle()
                             .frame(width: 8, height: 8)
-                    }
+                            }
                     RoundedRectangle(cornerRadius: CornerRadius.sm)
                         .frame(width: placeholderWidth(index), height: 14)
+                        .shimmer()
                     Spacer()
                 }
-                .opacity(0.6)
-                .foregroundStyle(Color.theme.textSecondary.opacity(0.25))
+                .opacity(0.8)
+                .foregroundStyle(Color.theme.textSecondary)
 
                 if index < rowCount - 1 {
                     Divider()
@@ -32,7 +33,6 @@ struct SkeletonList: View {
                 }
             }
         }
-        .shimmer()
     }
 
     private func placeholderWidth(_ index: Int) -> CGFloat {

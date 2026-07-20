@@ -16,7 +16,7 @@ struct Shimmer: ViewModifier {
             .overlay(
                 GeometryReader { geo in
                     LinearGradient(
-                        colors: [.clear, Color.white.opacity(0.1), .clear],
+                        colors: [.clear, Color.white.opacity(0.5), .clear],
                         startPoint: .leading,
                         endPoint: .trailing
                     )

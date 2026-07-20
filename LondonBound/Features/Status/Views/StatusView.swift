@@ -26,7 +26,6 @@ struct StatusView: View {
                         RoundedRectangle(cornerRadius: CornerRadius.sm)
                             .fill(Color.theme.textSecondary.opacity(0.25))
                             .frame(width: 140, height: 16)
-                            .shimmer()
                         SkeletonList(rowCount: 8)
                     }
                     .frame(maxWidth: .infinity, alignment: .leading)
