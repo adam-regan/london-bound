@@ -19,6 +19,12 @@ The app lets users check live line status, track upcoming arrivals, find nearby 
 
 ------------------------------------------------------------------------
 
+# Demo
+
+ ![Image](https://github.com/user-attachments/assets/a659d0b9-9960-438c-9343-94ec2ccf4856)
+
+------------------------------------------------------------------------
+
 # Motivation
 
 This project explores how to build a **modern SwiftUI app around a live public API** that balances clean architecture with a polished user experience.
