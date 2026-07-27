@@ -60,7 +60,7 @@ final class CoreDataSavedStationsRepository: SavedStationsRepositoryProtocol {
 
     private static func fetch(in context: NSManagedObjectContext) -> [SavedStation] {
         let request = SavedStationEntity.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(key: "savedAt", ascending: false)]
+        request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         let results = (try? context.fetch(request)) ?? []
         
         return results.compactMap { entity in
